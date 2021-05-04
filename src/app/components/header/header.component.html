@@ -1,0 +1,71 @@
+
+<mat-toolbar color="primary">
+<span (click)="goHome()" style="cursor: pointer;">{{StoreName}}</span>  
+<!--<div>{{cartJson|json}}</div>  -->
+
+<button  mat-icon-button matBadge="{{nItems}}" matBadgeColor="warn" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" >
+    <mat-icon style="font-size: 50px">add_shopping_cart</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      
+      <span>Number Of Items : {{nItems}}</span>
+    </button>
+    <button mat-menu-item >
+      
+      <span>Items Price : {{itemsPrice}}</span>
+    </button>
+    <button mat-menu-item>
+      
+      <span>Total Taxes : {{TotalTaxes}}</span>
+    </button>
+    <button mat-menu-item>
+      
+        <span>Total Shippings : {{TotalShippings}}</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+      
+        <span>Total : {{Total}}</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+      
+        <span><a [routerLink]="['/Products/Cart']" >Show Cart</a></span>
+      </button>
+  </mat-menu>
+
+  <span *ngIf="isLogged">Welcome, {{Logged.Name}}</span>
+
+  <button  mat-icon-button *ngIf="!isLogged"  [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu" >
+    <mat-icon style="font-size: 50px">perm_identity</mat-icon>
+  </button>
+  <button  mat-icon-button *ngIf="isLogged" [matMenuTriggerFor]="menu3" aria-label="Example icon-button with a menu" >
+    <mat-icon style="font-size: 50px">perm_identity</mat-icon>
+  </button>
+  <mat-menu #menu2="matMenu">
+    <button mat-menu-item>
+      
+        <span><a routerLink="." [queryParams]="{action:'login'}" >Login</a></span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item >
+      
+        <span><a routerLink="." [queryParams]="{action:'signup'}" >Signup</a></span>
+    </button>   
+      
+  </mat-menu>
+  <mat-menu #menu3="matMenu">
+    <button mat-menu-item>
+      
+        <span><a [routerLink]="['/Products/Orders']" >Orders</a></span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item >
+      
+        <span><a routerLink="." [queryParams]="{action:'logout'}" >Logout</a></span>
+    </button>   
+      
+  </mat-menu>
+</mat-toolbar>
+

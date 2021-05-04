@@ -1,0 +1,99 @@
+
+
+<app-header></app-header>
+
+<div style="width: 90%; margin: 20px auto;">
+<mat-form-field class="example-form-field" style="width:500px;margin:50px">
+    <mat-label>Search For</mat-label>
+    <input matInput type="text" [(ngModel)]="Keyword" [matAutocomplete]="auto" [formControl]="myControl">
+    <button mat-button *ngIf="Keyword" matSuffix mat-icon-button aria-label="Clear" (click)="Keyword=''">
+      <mat-icon style="color: red">close</mat-icon>
+    </button>
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      
+      <mat-option *ngFor="let option of filteredProducts | async" [value]="option.data" (click)="doSelectProduct(option.value)" [disabled]="option.value==undefined">
+        {{option.data}}
+      </mat-option>
+      
+    </mat-autocomplete>
+  
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill" style="margin: auto 20px;">
+    <mat-label>Order By</mat-label>
+    <mat-select [(ngModel)]="OrderBy" >
+      <mat-option value="Latest">Latest</mat-option>
+      <mat-option value="MostRated">Top Rated</mat-option>
+      <mat-option value="MostSold">Most Sold</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill" style="margin: auto 20px;">
+    <mat-label>Page Size</mat-label>
+    <mat-select [(ngModel)]="PageSize" >
+      <mat-option value="10">10</mat-option>
+      <mat-option value="20">20</mat-option>
+      <mat-option value="50">50</mat-option>
+      <mat-option value="100">100</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill" style="margin: auto 20px;">
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="CatID" (selectionChange)="doSelectCat($event)">
+      <mat-option  *ngFor="let cat of AllCats" [value]="cat.ID" >
+        {{cat.Name}}
+      </mat-option>
+      
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="doSearch()" style="height: 60px;width:100px">Search</button>
+
+  
+
+    <mat-card [ngStyle]="{
+      'background-color': alert=='success'?'#d4edda':'#f8d7da' ,
+      'color': alert=='success' ? '#155724':'#721c24'
+  }" style="margin: 20px auto;"
+  >{{result}}</mat-card>
+  </div>
+    <div fxLayout="row wrap" fxLayoutGap="grid" style="width:90%;margin:20px auto" >
+
+      
+      <mat-card  style="height:750px" fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="33%" *ngFor="let product of products" class="example-card">
+    <mat-card-header>
+      
+      <mat-card-title>{{product.Name}}</mat-card-title>
+      <mat-card-subtitle>{{product.ArabicName}}</mat-card-subtitle>
+      
+    </mat-card-header>
+    <img mat-card-image style="height:400px" [src]="getImagePath(product.ID)" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <div>(<span>{{product.NComments}} Comments - </span> <span>{{product.AvgRate}} Average Rate  </span>)</div>
+      <div>
+       <span class="old-price" style="text-decoration:line-through;">{{product.OldPrice}} LE</span> - 
+       <span class="price">{{product.Price}} LE</span>
+      </div>
+        <div class="NSold">{{product.NSold}} Units Sold</div>
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="showProduct(product.ID)">View</button>
+      <!--<button mat-button (click)="addToCart(product.ID,product.Price)">Add To Cart</button>-->
+      <button mat-button (click)="addToCart(product)">Add To Cart</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+  <mat-paginator *ngIf="showPager" 
+               [length]="nProducts"
+               [pageSize]="PageSize0"
+               [pageIndex]="PageIndex-1"
+               [hidePageSize]="true"
+               (page)="changePage($event)">
+</mat-paginator>
+<div *ngIf="showSpinner" style="opacity: 50%; height: 100%;width:100%;z-index:1000;position:absolute;top:0;left:0;">
+<mat-spinner style="justify-content: space-around;"></mat-spinner>
+</div>
+
+<app-footer></app-footer>

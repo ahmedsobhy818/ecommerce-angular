@@ -1,0 +1,78 @@
+<app-header></app-header>
+
+<div class=" alert alert-danger" *ngIf="ShowError">Product Not Found.            
+</div>
+<mat-tab-group *ngIf="!ShowError" [selectedIndex]="TabIndex" (selectedTabChange)="selectedTabChange()">
+    <mat-tab label="Basic Data">
+      <ng-template matTabContent >
+    <div *ngIf="TabIndex==0">
+        <div class="list-item"  ng-hide="ShowError||ShowComments">
+            <div><img style="height:600px" [src]="getImagePath(productID)"></div>
+        <div>
+            <div class="arabic">{{product?.ArabicName}}</div>
+            <div class="name">{{product?.Name}}</div>
+            
+            <div>(<span>{{product?.NComments}} Comments - </span> <span>{{product?.AvgRate}} Average Rate  </span>)</div>
+            <div class="prices">
+                <div></div>
+            <div class="price">{{product?.Price}} LE</div>
+            <div class="old-price" style="text-decoration: line-through;">{{product?.OldPrice}} LE</div>
+            <div></div>
+            </div>
+            <div class="NSold">{{product?.NSold}} Units Sold</div>
+        </div>
+            </div>
+            
+    </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Comments"  >
+      <ng-template matTabContent>
+          <div *ngIf="TabIndex==1">
+            <div class="AddComment" *ngIf="AllowAddComment" style="border:1px solid #ccc; padding:10px;margin:20px;border-radius:5px">
+                <form #f=ngForm *ngIf="isLogged">
+                     <textarea #cmt=ngModel name="cmt" ngModel placeholder="Enter Comment" class="form-control" style="display:block;width:50%;outline:none" rows=6 required></textarea>
+                     <div *ngIf="cmt?.invalid && cmt?.touched">please enter your comment</div>
+                     <div>Rating <input #rat=ngModel ngModel name=rat type="number"  max=5 min=0 value=0 required></div>
+                     <div *ngIf="rat?.invalid && rat?.touched">please enter your comment</div>
+                     <Button class="btn btn-primary" (click)="addComment(cmt,rat)" [disabled]="f.form?.status=='INVALID'">Add Comment</Button>
+                </form>
+                
+              </div>
+              <div *ngIf="!isLogged">
+                You have to <a routerLink="." [queryParams]="{action:'login'}" >login</a> to place a comment 
+              </div>
+        <div class="CommentsContainer" *ngIf="ShowComments&&!ShowError&&Comments?.length==0">
+            <div class=" alert alert-danger">No Comments</div>
+        </div>
+        <div class="CommentsContainer" *ngIf="ShowComments&&!ShowError&&Comments?.length>0">
+                
+                
+            <div *ngFor="let cmt of Comments" >
+              
+              <div style="border-bottom:1px solid #ccc;overflow:hidden;min-height:250px;padding:20px 10px">
+              <div class="img" style="float:left;height:50px;width:50px"><img style="height:100%;width:100%" [src]="GetCmtImg(cmt)"></div>
+              <div style="float:left;margin-left:20px;line-height:50px"><span style="font-size:30px"> {{cmt.Name}}</span> <span style="font-size:20px"> ({{cmt.UserName}})</span> </div>
+              <div style="clear:both;margin:72px auto auto 72px;font-style: italic;font-size:30px;color:#33f"><q>{{cmt.Comment}}</q></div>
+              value = {{cmt.Value}} 
+              </div>
+              
+
+
+            </div>
+            </div>
+    </div>
+      </ng-template>
+    </mat-tab>
+    
+  </mat-tab-group>
+
+  <div id="CartDiv" *ngIf="showCart" style="min-width:40%" class=" alert alert-primary" >
+    <span style="float:left;margin-right:10px;line-height:33px">   Units Added :</span> <input type=number min=0 [(ngModel)]="nItems"  class="form-control" style="width:100px;float:left;margin-right:10px">
+       <button id="btnUpdateCart" (click)="UpdateCart()" class="btn btn-primary" style="float:left;margin-right:10px">Update</button>
+       <button id="btnClearCart" (click)="ClearCart()" class="btn btn-danger" style="float:left;margin-right:10px">Clear</button>
+     </div>    
+   <button type="button" class="btn btn-primary btn-crt" *ngIf="!ShowError" (click)="ShowCart()">Add To Cart</button>
+       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="doBack()">Cancel</button>
+   
+  <app-footer></app-footer>

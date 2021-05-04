@@ -1,0 +1,68 @@
+<app-header></app-header>
+
+<table  style="width:100%;margin:50px auto" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+          <ng-container matColumnDef="Index">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.Index}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Image">
+            <th mat-header-cell *matHeaderCellDef> Image </th>
+            <td mat-cell *matCellDef="let element"> <img style="height: 100px;width: 100px;" [src]="getImagePath(element.ID)">  </td>
+          </ng-container>
+
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef> price </th>
+      <td mat-cell *matCellDef="let element"> {{element.Price}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="nItems">
+        <th mat-header-cell *matHeaderCellDef> Number </th>
+        <td mat-cell *matCellDef="let element"><input type="number" min=0 [(ngModel)]="element.nItems" >  </td>
+      </ng-container>
+
+      <ng-container matColumnDef="TotalPrice">
+        <th mat-header-cell *matHeaderCellDef> Total Price </th>
+        <td mat-cell *matCellDef="let element"> {{(element.Price *element.nItems).toFixed(2)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Tax">
+        <th mat-header-cell *matHeaderCellDef> Tax </th>
+        <td mat-cell *matCellDef="let element"> {{(element.Price *element.nItems * settings.TaxPercent).toFixed(3)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Shipping">
+        <th mat-header-cell *matHeaderCellDef> Shipping </th>
+        <td mat-cell *matCellDef="let element"> {{(element.Price * element.nItems * settings.ShippingPercent).toFixed(3)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="SubTotal">
+        <th mat-header-cell *matHeaderCellDef> Sub Total </th>
+        <td mat-cell *matCellDef="let element"> {{(element.Price * element.nItems * doAdd(settings.ShippingPercent,settings.TaxPercent,1)).toFixed(2)}} </td>
+
+      </ng-container>
+
+      <ng-container matColumnDef="Remove">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let element"> <mat-icon style="cursor: pointer;" (click)="Remove(element.ID)">delete</mat-icon> </td>
+
+      </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  Total : {{getTotal()}}
+
+  <button mat-raised-button color="primary" (click)="doUpdate()" style="height: 60px;width:100px">Update</button>
+  <button mat-raised-button color="primary" (click)="gotoCheckout()" style="height: 60px;width:100px;margin:50px">Checkout</button>
+
+  <app-footer></app-footer>

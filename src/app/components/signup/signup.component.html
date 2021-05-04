@@ -1,0 +1,55 @@
+<p>signup works!</p>
+<div class="alert alert-{{alert}}" *ngIf="ShowMessage">{{message}}</div>
+
+<form #f=ngForm (ngSubmit)="onSubmit(f)" class="example-form" *ngIf="!isLogged">
+
+    
+    <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput ngModel  name="Name" #name=ngModel required >
+      </mat-form-field>
+      <div *ngIf="name.touched && name.touched">
+          <div *ngIf="name.errors?.required">Name is a required field!</div>
+     </div>
+    <mat-form-field class="example-full-width">
+      <mat-label>e-mail</mat-label>
+      <input matInput ngModel [(ngModel)]="data.newAccount" type="email" name="email" #email=ngModel required email >
+    </mat-form-field>
+    <div *ngIf="email.touched && email.touched">
+        <div *ngIf="email.errors?.required">Email is a required field!</div>
+        <div *ngIf="email.errors?.email">This is not a valid Email!!!</div>
+        <div *ngIf="alreadyExist">This email already exists</div>
+    </div>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input matInput ngModel type="Password" name="password" #pass=ngModel required>
+    </mat-form-field>
+    <div *ngIf="f.form?.controls?.password?.invalid && pass?.touched">Password is required</div>
+    <mat-form-field class="example-full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput ngModel type="Password" name="confirm" #confirm=ngModel required>
+      </mat-form-field>
+    <div *ngIf="f.form?.controls?.confirm?.invalid && confirm?.touched">Confirm Password is required</div>
+    <div *ngIf="confirm?.value != pass?.value">Passworrd not equal to Confirm Password </div>
+
+    <mat-radio-group  >
+        <mat-radio-button name="gender" #g  value="m" (change)="setGender('m')" >Male</mat-radio-button>
+        <mat-radio-button name="gender" #g value="f" (change)="setGender('f')">Female</mat-radio-button>
+      </mat-radio-group>
+      <div *ngIf="gender==''" >Please selec gender </div>
+
+
+    <button type="submit"  mat-raised-button color="primary" [disabled]="f.form?.status=='INVALID' || gender=='' || (confirm?.value != pass?.value || alreadyExist )"
+    [mat-dialog-close]="data.newAccount" cdkFocusInitial
+    >Sign Up</button>
+    <!--[mat-dialog-close]="data.newAccount"  so data.newAccount which is the input email will be returned to the caller component (footer).if this returned value !='' then footer will redirect us to login page-->
+    
+    <button type="button"  mat-raised-button color="warn" (click)="doClose()"
+        >Cancel</button>
+</form>
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+.mat-tooltip.tooltip {
+    background-color: darkblue;
+    font-size: 12px;
+  }
+ 
+ .alert.alert-danger{
+   color: red;
+ } 
+ .alert.alert-success{
+   color: green;
+ }

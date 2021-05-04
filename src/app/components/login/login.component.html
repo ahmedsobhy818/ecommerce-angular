@@ -1,0 +1,24 @@
+<div class="alert alert-{{alert}}" *ngIf="ShowMessage">{{message}}</div>
+
+<form #f=ngForm (ngSubmit)="onSubmit(f)" class="example-form" *ngIf="!isLogged">
+
+    
+    <mat-form-field class="example-full-width">
+      <mat-label>e-mail</mat-label>
+      <input matInput ngModel type="email" name="email" #email=ngModel required email>
+    </mat-form-field>
+    <div *ngIf="email.touched && email.touched">
+        <div *ngIf="email.errors?.required">Email is a required field!</div>
+        <div *ngIf="email.errors?.email">This is not a valid Email!!!</div>
+    </div>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input matInput ngModel type="Password" name="password" #pass=ngModel required>
+    </mat-form-field>
+    <div *ngIf="f.form?.controls?.password?.invalid && pass?.touched">Password is required</div>
+
+    <button type="submit"  mat-raised-button color="primary" [disabled]="f.form?.status=='INVALID'">Login</button>
+    
+</form>
+<button type="button" mat-raised-button color="accent" (click)="doClose()">Cancel</button>  
+  

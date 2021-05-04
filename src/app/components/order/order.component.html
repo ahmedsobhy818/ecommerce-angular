@@ -1,0 +1,53 @@
+<app-header></app-header>
+  <div *ngIf="!isLogged">
+    You have to <a routerLink="." [queryParams]="{action:'login'}" >login</a> to see your orders 
+  </div>
+  <div *ngIf="!ShowSignIn&&orders?.length==0&&!NotAuth">
+    <div class="alert alert-danger">
+        You have no orders
+     </div>
+  </div>
+    <div *ngIf="!ShowSignIn&&NotAuth">
+    <div class="alert alert-danger">
+        You are not authorized to see this order
+     </div>
+    </div>
+
+  <div *ngIf="isLogged&&orders?.length>0&&!NotAuth">
+  <mat-form-field appearance="fill">
+    <mat-label>Your Orders</mat-label>
+    <mat-select #select [(value)]="CurrentOrderID" (selectionChange)="change(select.value)">
+      <mat-option *ngFor="let order of orders" [value]="order.OrderID">
+        {{order.OrderID}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="!ShowSignIn&&CurrentOrder!=null" style="border-bottom:1px solid #000;overflow:hidden;margin-top:20px;clear:both;background-color:#eee">
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:red">Order ID:{{CurrentOrder.OrderID}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Address:{{CurrentOrder.Address}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Phone:{{CurrentOrder.Phone}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Email:{{CurrentOrder.Email}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Name:{{CurrentOrder.UserName}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:red">Total:{{CurrentOrder.Total}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Order Time:{{CurrentOrder.OrderTime}}</div>
+    <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:green">Status:{{CurrentOrder.Status}}</div>
+</div>
+
+<div *ngIf="!ShowSignIn&&CurrentOrder!=null" style="border:1px solid #000;border-radius:10px;overflow:hidden;margin-top:20px;clear:both;padding:10px">
+ <div class="container">
+ <div *ngFor="let line of CurrentOrder.lines" style="border-bottom:1px solid #f00;overflow:hidden;margin-top:20px;clear:both">
+ <div><img [src]="getImagePath(line.ProductID)" style="width:100px;height:100px;margin:5px"></div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Product Name:{{line.Name}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Arabic Name:{{line.ArabicName}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Unit Price:{{line.UnitPrice}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Number of items:{{line.nItems}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Tax:{{line.Tax}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Shipping:{{line.Shipping}}</div>
+ <div class="float-left col-xs-12 col-md-5 offset-md-1" style="border:1px solid #ccc;border-radius:5px;padding:10px;margin-top:10px;margin-bottom:10px;color:blue">Total:{{line.Total}}</div>
+ </div>
+ </div>
+</div>
+
+<app-footer></app-footer>
