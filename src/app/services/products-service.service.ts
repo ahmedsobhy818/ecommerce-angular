@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -39,7 +39,10 @@ export class ProductsService {
 }
 
 addComment(obj) {
-  return this.http.post(environment.AppName + '/api/queries/AddComment.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+  let headers = new HttpHeaders();
+  headers = headers.set('Authorization', obj.token);
+  
+  return this.http.post(environment.AppName + '/api/queries/AddComment.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})        
   
 }
 
@@ -48,11 +51,16 @@ addComment(obj) {
   
 }
  AddOrder(obj) {
-  return this.http.post(environment.AppName + '/api/queries/AddOrder.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+  let headers = new HttpHeaders();
+  headers = headers.set('Authorization', obj.token);
+  return this.http.post(environment.AppName + '/api/queries/AddOrder.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})        
 
 }
  getOrders(obj) {
-  return this.http.post(environment.AppName + '/api/queries/getOrders.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))          
+  let headers = new HttpHeaders();
+  headers = headers.set('Authorization', obj.token);
+
+  return this.http.post(environment.AppName + '/api/queries/getOrders.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})          
 }
 
 doAutocompletePrdoducts(obj) {

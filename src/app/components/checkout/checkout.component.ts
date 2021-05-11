@@ -96,6 +96,7 @@ export class CheckoutComponent implements OnInit {
         UserID:this.Logged.ID,
         Email:this.Logged.UserName,
         jwt:this.Logged.jwt,
+        token:this.Logged.token,
         Address:this.address,
         Phone:this.phone,
         Price:this.TotalBasicPrice,

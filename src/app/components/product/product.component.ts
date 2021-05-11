@@ -132,7 +132,8 @@ addComment(cmt,rat){
     "value":rat.value,
     "comment":cmt.value,
     "userName":this.Logged.UserName,
-    "jwt":this.Logged.jwt
+    "jwt":this.Logged.jwt,
+    "token":this.Logged.token
 }
 this.service.addComment(obj).subscribe(data=>{
   obj["Name"]=this.Logged.Name;
@@ -147,6 +148,7 @@ this.service.addComment(obj).subscribe(data=>{
   let Logged=this.Logged
   this.AllowAddComment= (this.Logged!=null) && (!this.ShowError) &&(this.ShowComments) &&  (this.Comments.filter(function(cmt){ return cmt.UserID==Logged.ID}).length==0)  
 },e=>{
+  console.log(e);
   this._snackBar.open(e.error.Message , "Close", {
     duration: 5000,
   })

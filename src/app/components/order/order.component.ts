@@ -52,7 +52,8 @@ loadData(){
     this.service.getOrders({
       "UserID":this.Logged.ID,
       "jwt":   this.Logged.jwt,
-      "Email": this.Logged.UserName
+      //"Email": this.Logged.UserName,
+      "token":this.Logged.token
   }).subscribe(data=>{
     this.orders=data['Orders']
     this.CurrentOrderID= this.orders.length>0?this.orders[0].OrderID:-1;
@@ -71,7 +72,17 @@ loadData(){
       
         
   },e=>{
-    if(e.error.ErrorType=="login")
+    if(e.error==null){
+      console.log(e);//authorization header not set- unauthorized 401 
+                     //, or user not in the role -forbidden 403
+      if(e.status==401)
+       alert('authorization header not set- or failed login unauthorized 401');
+      if(e.status==403)
+       alert('user not in the role -forbidden 403');
+
+      return;
+    }
+    if(e.error.ErrorType=="login")//from jwt 
     {
       alert(e.error.Message)  
       this.store.dispatch(new LogoutAction())
