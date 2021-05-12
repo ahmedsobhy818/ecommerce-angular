@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
          this.ShowMessage=false;
          this.service.doLogin(obj).subscribe((data)=>{
               let Logged=data['Data']
-              Logged.jwt=data['jwt']
+              //Logged.jwt=data['jwt']
               Logged.token=data['token']
               this.store.dispatch(new LoginAction(Logged))  //the component dispatchs an action to the reducer  
 

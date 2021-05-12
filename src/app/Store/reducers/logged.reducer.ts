@@ -9,8 +9,8 @@ export interface User{ //interface of this State , we used it in "StoreInterface
     Gender:string,
     Name:string,
     UserName:string,
-    jwt:string  ,//for jwt authentication
-    token:string //for asp.net core basic authentication
+    //jwt:string  ,//for jwt authentication
+    token:string //for asp.net core basic  authentication and jwt authentication
 }
 //initial state of "logged" come from local storage
 let initialState:User=   localStorage.getItem('Logged')?JSON.parse(localStorage.getItem('Logged')):null

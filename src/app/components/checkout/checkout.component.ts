@@ -95,7 +95,7 @@ export class CheckoutComponent implements OnInit {
       var order={
         UserID:this.Logged.ID,
         Email:this.Logged.UserName,
-        jwt:this.Logged.jwt,
+        //jwt:this.Logged.jwt,
         token:this.Logged.token,
         Address:this.address,
         Phone:this.phone,
@@ -134,13 +134,14 @@ export class CheckoutComponent implements OnInit {
       
     },e=>{
       console.log(e)
-      if(e.error.ErrorType=="login")//so it is login related error
+      if(e.status==401)//so it is login related error
       {
           
           this.store.dispatch(new LogoutAction())
-          this._snackBar.open(e.error.Message , "Close", {
+          this._snackBar.open("UnAuthorized error 401" , "Close", {
             duration: 5000,
           })
+          return;
           //$scope.Logged=null;
           //$scope.ShowMsg=false;
       }

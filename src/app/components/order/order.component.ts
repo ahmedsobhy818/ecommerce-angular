@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ProductsService } from 'src/app/services/products-service.service';
@@ -24,7 +25,8 @@ NotAuth=false
   constructor(private store:Store<StoreInterface>,
     private router:Router,
     private service:ProductsService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private _snackBar: MatSnackBar
     ) {
       store.select(loggedFS).subscribe(data=>{
         
@@ -51,7 +53,7 @@ loadData(){
   if(this.isLogged){
     this.service.getOrders({
       "UserID":this.Logged.ID,
-      "jwt":   this.Logged.jwt,
+      //"jwt":   this.Logged.jwt,
       //"Email": this.Logged.UserName,
       "token":this.Logged.token
   }).subscribe(data=>{
@@ -76,17 +78,28 @@ loadData(){
       console.log(e);//authorization header not set- unauthorized 401 
                      //, or user not in the role -forbidden 403
       if(e.status==401)
-       alert('authorization header not set- or failed login unauthorized 401');
+      {
+       
+       this._snackBar.open("Authentication Failed 401" , "Close", {
+        duration: 5000,
+      })
+       this.store.dispatch(new LogoutAction())
+      }
       if(e.status==403)
-       alert('user not in the role -forbidden 403');
+       {
+        this._snackBar.open("You Are Not Admin" , "Close", {
+          duration: 5000,
+        })
+       }
 
+       
       return;
     }
-    if(e.error.ErrorType=="login")//from jwt 
+  /*  if(e.error.ErrorType=="login")//from jwt 
     {
       alert(e.error.Message)  
       this.store.dispatch(new LogoutAction())
-    }
+    }*/
   })
 }
 }
