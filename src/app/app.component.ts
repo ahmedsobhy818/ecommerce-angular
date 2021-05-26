@@ -22,10 +22,6 @@ export class AppComponent  {
  *
  */
 constructor(private store:Store<StoreInterface>) {
-  if(environment.isDotNetCore)
-      environment.AppName=environment.AppNameForDotNetCore
-      
   this.store.dispatch(new LoadSettingsAction())//818
-  
 }
 }

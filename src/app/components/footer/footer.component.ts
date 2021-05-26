@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { SignalrGeneralHubService } from 'src/app/services/HubsServices/signalr-general-hub.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
 import { LogoutAction } from 'src/app/Store/actions/logged.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
@@ -20,12 +21,16 @@ import { SignupComponent } from '../signup/signup.component';
 //if thee user goes to signup and create new account then he is redirected to login page
 
 export class FooterComponent implements OnInit {
+newData=0
+msg=""
 
   constructor(private route:ActivatedRoute,
     public dialog: MatDialog,
     private router:Router,
     private prev:PreviousRouteService,
-    private store:Store<StoreInterface>)
+    private store:Store<StoreInterface>,
+    private signalRService:SignalrGeneralHubService
+    )
      {
     this.route.queryParamMap.subscribe(params=>{
       let action=params.get('action')
@@ -64,10 +69,22 @@ export class FooterComponent implements OnInit {
           this.router.navigate([''])
       }
     })
+
+   
    }
    
 
   ngOnInit(): void {
+    this.signalRService.GetDataStreamFromLongTimeOperation()  
+    this.signalRService.hubMessage.subscribe(data=>{
+      this.msg=data;
+    })
+    this.signalRService.hubFinsihData.subscribe(data=>{
+      this.msg=data;
+    })
+    this.signalRService.hubNewData.subscribe(data=>{
+      this.newData=data;
+    })
   }
 
 }

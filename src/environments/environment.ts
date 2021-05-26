@@ -9,6 +9,7 @@ export const environment = {
   AppNameForDotNetCore:'https://localhost:44353'// url of the e.net core api - project TestEcommerceAPI hosted on visual studido's iis
 };
 
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

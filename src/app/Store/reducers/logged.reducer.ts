@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { retry } from 'rxjs/operators'
+import { SignalrHubServiceForUser } from 'src/app/services/HubsServices/signalr-hub-service.service'
 import { LOGIN, LOGOUT } from '../actions/logged.action'
 import { CustomAction } from '../store'
 
@@ -14,7 +15,8 @@ export interface User{ //interface of this State , we used it in "StoreInterface
 }
 //initial state of "logged" come from local storage
 let initialState:User=   localStorage.getItem('Logged')?JSON.parse(localStorage.getItem('Logged')):null
-  
+//let HubUserServie:SignalrHubServiceForUser=new SignalrHubServiceForUser(null);
+
 export function loggedReducer(state:User=initialState,action:CustomAction){ //the reducer function to manage this state
     //by default "action" is of type "Action"  , we used our "CustomAction" to pass payload from action to reducer
      

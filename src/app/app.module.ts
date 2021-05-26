@@ -23,6 +23,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RouterModule } from '@angular/router';
 import { SignupComponent } from './components/signup/signup.component';
 import { OrderComponent } from './components/order/order.component';
+import { APP_INITIALIZER } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { SignalrHubServiceForUser } from './services/HubsServices/signalr-hub-service.service';
+import { SignalrGeneralHubService } from './services/HubsServices/signalr-general-hub.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,32 @@ import { OrderComponent } from './components/order/order.component';
     
     
   ],
-  providers: [],
+  providers: [
+    SignalrHubServiceForUser,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (signalrService: SignalrHubServiceForUser) => () => signalrService.initiateSignalrConnection(),
+      deps: [SignalrHubServiceForUser],
+      multi: true, 
+    },
+    SignalrGeneralHubService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (signalrService: SignalrGeneralHubService) => () => signalrService.initiateSignalrConnection(),
+      deps: [SignalrGeneralHubService],
+      multi: true
+    }
+
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  /**
+   *
+   */
+  constructor() {
+    if(environment.isDotNetCore)
+      environment.AppName=environment.AppNameForDotNetCore
+     
+  }
+}
