@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreInterface } from './Store/store';
 import { LoadSettingsAction } from './Store/actions/settings.action';
+import { PreviousRouteService } from './services/previous-route.service';
+import { MyInterceptor } from './interceptor';
+import { LoadingService } from './services/loading-service.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +24,26 @@ export class AppComponent  {
 /**
  *
  */
-constructor(private store:Store<StoreInterface>) {
-  this.store.dispatch(new LoadSettingsAction())//818
+ isLoaded:boolean=false;
+ ishttpLoaded:boolean=false;
+
+constructor(private store:Store<StoreInterface> , 
+  private routeService:PreviousRouteService,
+  private loadingService:LoadingService
+  )
+ {
+   
+  this.store.dispatch(new LoadSettingsAction())
+  routeService.LoadingBehaviour.subscribe(data=>{
+    this.isLoaded=data
+    
+  })
+
+  loadingService.LoadingBehaviour.subscribe(data=>{
+    console.log("-*-*-*-*")
+    console.log(data)
+    this.ishttpLoaded=data
+    console.log("-*-*-*-*") 
+  })
 }
 }

@@ -1,8 +1,8 @@
 
-
+<div style="position: relative;" >
 <app-header></app-header>
 
-<div style="width: 90%; margin: 20px auto;">
+<div style="width: 90%; margin: 20px auto">
 <mat-form-field class="example-form-field" style="width:500px;margin:50px">
     <mat-label>Search For</mat-label>
     <input matInput type="text" [(ngModel)]="Keyword" [matAutocomplete]="auto" [formControl]="myControl">
@@ -81,6 +81,7 @@
       <button mat-button (click)="showProduct(product.ID)">View</button>
       <!--<button mat-button (click)="addToCart(product.ID,product.Price)">Add To Cart</button>-->
       <button mat-button (click)="addToCart(product)">Add To Cart</button>
+      <button mat-button (click)="addToWishlist(product)">{{ getWishListLabel(product) }} Wishlist</button>
     </mat-card-actions>
   </mat-card>
 </div>
@@ -92,8 +93,8 @@
                [hidePageSize]="true"
                (page)="changePage($event)">
 </mat-paginator>
-<div *ngIf="showSpinner" style="opacity: 50%; height: 100%;width:100%;z-index:1000;position:absolute;top:0;left:0;">
-<mat-spinner style="justify-content: space-around;"></mat-spinner>
-</div>
-
+<!--<div *ngIf="showSpinner" style="opacity: 50%; height: 100%;width:100%;z-index:1000;position:absolute;top:0;left: 0%;background-color: #fff">
+<mat-spinner style="top:50vh;left:calc(50% - 20px);opacity: 100%;"></mat-spinner>
+</div>-->
 <app-footer></app-footer>
+</div>

@@ -32,7 +32,11 @@ export class SignalrGeneralHubService {
     this.connection.on('finishedData', (message: string) => {
       this.hubFinsihData.next(message);
     });
-
+    this.connection.onclose(e=>{
+      //basic work of hub reconnecting
+      alert(`the error is : ${e.message}`)
+      this.connection.start()
+    })
    }
   public initiateSignalrConnection(): Promise<any>{
     return new Promise((resolve, reject) => {

@@ -33,6 +33,11 @@ Logged
       this.connection.on('broadcastMessage', (message: string) => {
         console.log(message)
       });
+      this.connection.onclose(e=>{
+        //basic work of hub reconnecting
+        alert(`the error is : ${e.message}`)
+        this.connection.start()
+      })
     }
 
     

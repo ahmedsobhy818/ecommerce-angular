@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { StoreInterface } from 'src/app/Store/store';
 import { IncrementQuantityAction, RemoveAllAction, RemoveProductAction, SetQuantityAction } from 'src/app/Store/actions/cart.action';
 import { LoadSettingsAction } from 'src/app/Store/actions/settings.action';
+import { ToggleProductInWishlistAction } from 'src/app/Store/actions/wishlist.action';
+import { Wishlist, wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
 
 @Component({
   selector: 'app-home',
@@ -39,12 +41,14 @@ CatName0
  nPages
  nProducts
  ProductID
- showSpinner=false
+ //showSpinner
+ WishList:Wishlist
+
   constructor(private service:ProductsService,
     private router:Router,
     private route:ActivatedRoute,
     private store:Store<StoreInterface>) {
-     
+      
       this.route.paramMap.subscribe(
         params=>{
           this.OrderBy=params.get('OrderBy')==null?'Latest':params.get('OrderBy')
@@ -74,18 +78,22 @@ console.log(this.ProductID)
           )
         }
         )
+
+        store.select(wishlistSelector).subscribe(data=>{
+          
+         this.WishList=data
+        })
   }
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      console.log('loaded')
-      this.showSpinner=false  //test to hide spinner after someetime
-    }, (3000));
+   // setTimeout(() => {
+   //   this.showSpinner=false  //test to hide spinner after someetime
+   // }, (3000));
     
   }
   ngOnInit(): void {
     console.log('start')
 
-    this.showSpinner=true
+    //this.showSpinner=true
     this.myControl.valueChanges.pipe( //autocomplete element of angular material
       //to do this , in the input tag we added :[formControl]="myControl"
       //this is Reactive Forms technique , we must add "ReactiveFormsModule" in the imports of app.module
@@ -204,5 +212,16 @@ addToCart(Product:any) /*(ProductID:number ,price:number)*/{
     //this.store.dispatch(new IncrementQuantityAction({product_id:ProductID , price:price }))  //the component dispatchs an action to the reducer  
     this.store.dispatch(new IncrementQuantityAction({product:Product }))  //the component dispatchs an action to the reducer  
 
+}
+addToWishlist(Product:any) /*(ProductID:number ,price:number)*/{
+  this.store.dispatch(new ToggleProductInWishlistAction({product:Product }))  //the component dispatchs an action to the reducer  
+}
+getWishListLabel(product:any){
+  let items=this.WishList.wishlistItems.filter(
+    function(item){
+      return item.product.ID==product.ID
+    }
+  )
+return items.length==0?  "Add To" :  "Remove From"
 }
 }

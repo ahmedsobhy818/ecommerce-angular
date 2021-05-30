@@ -1,0 +1,7 @@
+    <div *ngIf="loading" style="opacity: 50%; height: 1000vh;width:100%;z-index:1000;position:absolute;top:0;left: 0%;background-color: #fff">
+       <mat-spinner [color]="'accent'" style="top:50vh;left:calc(50% - 20px);opacity: 100%;"></mat-spinner>
+    </div>
+
+    <div *ngIf="httploading" style="opacity: 50%; height: 1000vh;width:100%;z-index:1000;position:absolute;top:0;left: 0%;background-color: #fff">
+        <mat-spinner [color]="'primary'" style="top:50vh;left:calc(50% - 20px);opacity: 100%;"></mat-spinner>
+     </div>

@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -27,6 +27,9 @@ import { APP_INITIALIZER } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SignalrHubServiceForUser } from './services/HubsServices/signalr-hub-service.service';
 import { SignalrGeneralHubService } from './services/HubsServices/signalr-general-hub.service';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MyInterceptor } from './interceptor';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { SignalrGeneralHubService } from './services/HubsServices/signalr-genera
     CheckoutComponent,
     LoginComponent,
     SignupComponent,
-    OrderComponent
+    OrderComponent,
+    WishlistComponent,
+    SpinnerComponent
     
   ],
   imports: [
@@ -57,6 +62,11 @@ import { SignalrGeneralHubService } from './services/HubsServices/signalr-genera
     
   ],
   providers: [
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:MyInterceptor,
+      multi:true
+    },
     SignalrHubServiceForUser,
     {
       provide: APP_INITIALIZER,

@@ -3,6 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { element } from 'protractor';
+import { wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
 import { StoreInterface } from 'src/app/Store/store';
 
 @Component({
@@ -15,6 +16,7 @@ cartJson
 Logged
 isLogged
 nItems
+nWishList
 itemsPrice
 StoreName
 TaxPercent
@@ -26,6 +28,7 @@ Total
 constructor(private store:Store<StoreInterface>,
   private router:Router) {
     store.subscribe(data=>{
+      console.log(data)
       this.cartJson=data.cart.cartItems
       let n=0
       let items_price=0
@@ -47,13 +50,19 @@ constructor(private store:Store<StoreInterface>,
     this.isLogged= data.logged!=null
     })
 
-
+    store.select(wishlistSelector).subscribe(data=>{
+      
+     this.nWishList=data.wishlistItems?.length==0?'':data.wishlistItems?.length
+    })
    }
 
   ngOnInit(): void {
   }
   goHome(){
     this.router.navigate(['']);     
+  }
+  gotoWishlist(){
+    this.router.navigate(['Products','Wishlist']);     
   }
 /*
   gotoCart(){

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,23 @@ export class PreviousRouteService {
 
   private previousUrl: string;
   private currentUrl: string;
+  public LoadingBehaviour: BehaviorSubject<boolean>
 
   constructor(private router: Router) {
+    this.LoadingBehaviour=new BehaviorSubject<boolean>(false);
+
     this.currentUrl = this.router.url;
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd ) {        
         this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;
+        setTimeout(() => {
+          this.LoadingBehaviour.next(false)  //hide navigation spinner
+        }, 500);
         
+      };
+      if (event instanceof NavigationStart ) {        
+        this.LoadingBehaviour.next(true)//show navigation spinner
       };
     });
   }
