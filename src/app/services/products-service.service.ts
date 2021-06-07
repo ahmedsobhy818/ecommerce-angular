@@ -17,7 +17,7 @@ export class ProductsService {
   
 }
  getProducts(obj) {
-  return this.http.post(environment.AppName + '/api/queries/Products.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+  return this.http.post(environment.AppName + '/api/queries/Products.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj)/*,{headers: headers}*/)        
   
 }
  getAProduct(obj) {
@@ -63,7 +63,13 @@ addComment(obj) {
   return this.http.post(environment.AppName + '/api/queries/getOrders.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})          
 }
 
-doAutocompletePrdoducts(obj) {
-  return this.http.post(environment.AppName + '/api/queries/Search.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))          
+doAutocompletePrdoducts(obj,SpinnerVarName) {
+ let headers = new HttpHeaders();
+ //dont use large blue spinner 
+ //, we will use our custom small spinner in this request 
+ //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+ headers = headers.set('CustomSpinner',SpinnerVarName);
+ 
+  return this.http.post(environment.AppName + '/api/queries/Search.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers:headers})          
 }
 }

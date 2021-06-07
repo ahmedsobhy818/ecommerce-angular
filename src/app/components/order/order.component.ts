@@ -87,7 +87,7 @@ loadData(){
       }
       if(e.status==403)
        {
-        this._snackBar.open("You Are Not Admin" , "Close", {
+        this._snackBar.open("You Are Not Customer" , "Close", {
           duration: 5000,
         })
        }

@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { AccountService } from 'src/app/services/account.service';
+import { LoadingService } from 'src/app/services/loading-service.service';
 import { LogoutAction } from 'src/app/Store/actions/logged.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { StoreInterface } from 'src/app/Store/store';
@@ -23,7 +24,9 @@ ShowMessage
 @ViewChild('email') email//
 alreadyExist=false
 EnteredEmail=''
-//NameControl:FormControl=new FormControl()
+accountType=''
+showEmailSpinner=false
+submitSpinner=false
   ngOnInit(): void {
     
   }
@@ -37,8 +40,10 @@ EnteredEmail=''
        return $result     
     })*/
       ).subscribe(x => {
-      //x=>console.log("x:" + x)
-      this.service.checkEmailExist({'Email':x}).subscribe(
+      if(x=='' || x==null || x==undefined)
+       return;
+
+      this.service.checkEmailExist({'Email':x},"showEmailSpinner").subscribe(
         data=>{
           this.alreadyExist=!data
         }  
@@ -54,12 +59,13 @@ EnteredEmail=''
       Name:f.form.value.Name ,
       Email:this.EnteredEmail,
       Gender:this.gender,
-      Password:f.form.value.password
+      Password:f.form.value.password,
+      accountType:this.accountType
   }
   ///
   this.ShowMessage=false;
 
-this.service.doSignUp(obj).subscribe((data)=>{
+this.service.doSignUp(obj,"submitSpinner").subscribe((data)=>{
     
   
 
@@ -74,14 +80,17 @@ this.service.doSignUp(obj).subscribe((data)=>{
     f.form.value.password='';
     f.form.value.confirm='';
     setTimeout(() => {
-     
-      this.doClose()
-    }, 5000);
+     console.log("closing signup------")
+      this.doClose({
+         output:this.EnteredEmail
+        })
+    }, 1000); 
 
 },(e)=>{
     this.ShowMessage=true;
     this.alert="danger";
     this.message=e.error.Message;
+    
 })
 
   }
@@ -91,6 +100,7 @@ this.service.doSignUp(obj).subscribe((data)=>{
 constructor(private service:AccountService,
             private store:Store<StoreInterface>,
             public dialogRef: MatDialogRef<SignupComponent>,
+            private loadingService:LoadingService,
             @Inject(MAT_DIALOG_DATA) public data: {newAccount:string}//data rercieved and sent by MatDialog
             ) {
   
@@ -103,8 +113,22 @@ constructor(private service:AccountService,
                 }
               })
   
+
+              this.loadingService.SmallLoadingBehaviour.subscribe(data=>{
+                if(data==null)
+                return;
+      
+                let SpinnerVarName=data.SpinnerVarName
+                let ShowSpinner=data.ShowSpinner
+                if(ShowSpinner)
+                 this[SpinnerVarName]=ShowSpinner
+                 else{
+                  setTimeout(() => {
+                    this[SpinnerVarName]=ShowSpinner
+                  }, 1000);} 
+              })
 }
-doClose(){
-  this.dialogRef.close();
+doClose(obj){
+  this.dialogRef.close(obj);
 }
 }

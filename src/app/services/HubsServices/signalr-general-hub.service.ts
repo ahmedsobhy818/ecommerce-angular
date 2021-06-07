@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
+import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
+import { StoreInterface } from 'src/app/Store/store';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,13 +16,15 @@ export class SignalrGeneralHubService {
   hubMessage: BehaviorSubject<string>; //used to return observable contain the returned data from the hub
   hubNewData: BehaviorSubject<number>; //used to return observable contain the returned data from the hub
   hubFinsihData: BehaviorSubject<string>; //used to return observable contain the returned data from the hub
-
-  
-  constructor() { 
+  hubConnectionOff: BehaviorSubject<boolean>; //used to return observable contain the returned data from the hub
+  Logged
+  constructor(private Router:Router,private store:Store<StoreInterface>) { 
   this.hubMessage=new BehaviorSubject<string>("");
   this.hubNewData=new BehaviorSubject<number>(0);
   this.hubFinsihData=new BehaviorSubject<string>("");
+  this.hubConnectionOff=new BehaviorSubject<boolean>(false);
 
+  store.select(loggedSelector).subscribe(data=>{this.Logged=data})
     console.log('general hub service');
    }
    private  setSignalRHandlers(){
@@ -32,16 +38,36 @@ export class SignalrGeneralHubService {
     this.connection.on('finishedData', (message: string) => {
       this.hubFinsihData.next(message);
     });
+    /* 
     this.connection.onclose(e=>{
-      //basic work of hub reconnecting
-      alert(`the error is : ${e.message}`)
-      this.connection.start()
+      console.log(`error in general hub. the error is : ${e.message}`)
+      this.hubConnectionOff.next(true);
+    })*/
+    this.connection.onreconnecting(()=>{
+      console.log("reconnecting...")
+      this.hubConnectionOff.next(true);
+    })
+    this.connection.onreconnected(()=>{
+      console.log("reconnected !")
+      this.hubConnectionOff.next(false);
     })
    }
   public initiateSignalrConnection(): Promise<any>{
     return new Promise((resolve, reject) => {
       this.connection = new HubConnectionBuilder() 
-       .withUrl(environment.AppName + '/hub_general') // the SignalR server url
+       .withUrl(environment.AppName + '/hub_general',{accessTokenFactory:()=>{return this.Logged?.token }}) // the SignalR server url
+       .withAutomaticReconnect({
+        nextRetryDelayInMilliseconds: retryContext => {
+           // if (retryContext.elapsedMilliseconds < 180000) {
+                // If we've been reconnecting for less than 180 seconds so far,
+                // wait  10 seconds before the next reconnect attempt.
+                return  10000;
+           // } else {
+                // If we've been reconnecting for more than 180 seconds so far, stop reconnecting.
+             //   return null;
+           // }
+        }
+    })//
         .build();
   
      this.setSignalRHandlers();
@@ -50,7 +76,7 @@ export class SignalrGeneralHubService {
         .start()
         .then(() => {
           console.log(`SignalR connection success! connectionId: ${this.connection.connectionId} `);
-      
+          this.hubConnectionOff.next(false);
          // this.connection  .invoke('Hello').then(data=>{},e=>{
          //   console.log(e)
          // })
@@ -60,6 +86,7 @@ export class SignalrGeneralHubService {
         })
         .catch((error) => {
           console.log(`SignalR connection error: ${error}`);
+          this.hubConnectionOff.next(true);
           reject();
         });
     });

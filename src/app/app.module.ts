@@ -30,6 +30,7 @@ import { SignalrGeneralHubService } from './services/HubsServices/signalr-genera
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MyInterceptor } from './interceptor';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MyInterceptor } from './interceptor';
     SignupComponent,
     OrderComponent,
     WishlistComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NotificationComponent
     
   ],
   imports: [
@@ -67,21 +69,21 @@ import { MyInterceptor } from './interceptor';
       useClass:MyInterceptor,
       multi:true
     },
+    
+    SignalrGeneralHubService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (signalrService2: SignalrGeneralHubService) => () => signalrService2.initiateSignalrConnection(),
+      deps: [SignalrGeneralHubService],
+      multi: true
+    },
     SignalrHubServiceForUser,
     {
       provide: APP_INITIALIZER,
       useFactory: (signalrService: SignalrHubServiceForUser) => () => signalrService.initiateSignalrConnection(),
       deps: [SignalrHubServiceForUser],
       multi: true, 
-    },
-    SignalrGeneralHubService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (signalrService: SignalrGeneralHubService) => () => signalrService.initiateSignalrConnection(),
-      deps: [SignalrGeneralHubService],
-      multi: true
     }
-
   ],
   bootstrap: [AppComponent]
 })
@@ -95,3 +97,7 @@ export class AppModule {
      
   }
 }
+function routes(routes: any, arg1: { onSameUrlNavigation: "reload"; }): any {
+  throw new Error('Function not implemented.');
+}
+

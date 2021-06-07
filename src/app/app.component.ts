@@ -40,10 +40,10 @@ constructor(private store:Store<StoreInterface> ,
   })
 
   loadingService.LoadingBehaviour.subscribe(data=>{
-    console.log("-*-*-*-*")
-    console.log(data)
+    //console.log("-*-*-*-*")
+    //console.log(data)
     this.ishttpLoaded=data
-    console.log("-*-*-*-*") 
+    //console.log("-*-*-*-*") 
   })
 }
 }

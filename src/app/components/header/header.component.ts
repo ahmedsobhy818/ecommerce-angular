@@ -3,6 +3,9 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { element } from 'protractor';
+import { AccountService } from 'src/app/services/account.service';
+import { SignalrHubServiceForUser } from 'src/app/services/HubsServices/signalr-hub-service.service';
+import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
 import { StoreInterface } from 'src/app/Store/store';
 
@@ -17,6 +20,7 @@ Logged
 isLogged
 nItems
 nWishList
+nNewNotifications
 itemsPrice
 StoreName
 TaxPercent
@@ -26,7 +30,9 @@ TotalTaxes
 TotalShippings
 Total
 constructor(private store:Store<StoreInterface>,
-  private router:Router) {
+  private router:Router,
+  private service:AccountService,
+  private SignalRForUser:SignalrHubServiceForUser) {
     store.subscribe(data=>{
       console.log(data)
       this.cartJson=data.cart.cartItems
@@ -51,18 +57,45 @@ constructor(private store:Store<StoreInterface>,
     })
 
     store.select(wishlistSelector).subscribe(data=>{
-      
-     this.nWishList=data.wishlistItems?.length==0?'':data.wishlistItems?.length
+      this.nWishList=data.wishlistItems?.length==0?'':data.wishlistItems?.length
     })
+    store.select(loggedSelector).subscribe(log_data=>{
+      console.log("HEADER LOGGED SELECTOR")
+      service.getNewNotificationsCount({
+        "ID":this.Logged?.ID,
+        "token":this.Logged?.token
+      }).subscribe(
+        data=>this.nNewNotifications=data!=0?data:''
+      )
+    })
+
+    
    }
 
   ngOnInit(): void {
+    this.SignalRForUser.hubNewNotify.subscribe(data=>{
+      if(data)
+       this.nNewNotifications++;
+      else
+       this.nNewNotifications=''
+    })
+    this.SignalRForUser.hubDecrementNotify.subscribe(data=>{
+      if(data)
+       this.nNewNotifications--;
+
+       if(this.nNewNotifications==0)
+       this.nNewNotifications='';
+    })
+    
   }
   goHome(){
     this.router.navigate(['']);     
   }
   gotoWishlist(){
     this.router.navigate(['Products','Wishlist']);     
+  }
+  gotoNotifications(){
+    this.router.navigate(['Account','Notifications']);     
   }
 /*
   gotoCart(){

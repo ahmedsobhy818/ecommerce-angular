@@ -17,7 +17,9 @@
     </mat-form-field>
     <div *ngIf="f.form?.controls?.password?.invalid && pass?.touched">Password is required</div>
 
-    <button type="submit"  mat-raised-button color="primary" [disabled]="f.form?.status=='INVALID'">Login</button>
+    <button type="submit"  mat-raised-button color="primary" [disabled]="f.form?.status=='INVALID' || submitSpinner">Login
+      <mat-spinner id="spinnerSubmit" *ngIf="submitSpinner" [diameter]="25" ></mat-spinner>  
+    </button>
     
 </form>
 <button type="button" mat-raised-button color="accent" (click)="doClose()">Cancel</button>  

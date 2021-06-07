@@ -13,4 +13,9 @@
   .alert.alert-success{
       color: green;
   }
+  #spinnerSubmit{
+    position: absolute;
+      top: 23%;
+      left: 35%
+  }
   

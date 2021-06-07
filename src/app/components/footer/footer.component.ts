@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SignalrGeneralHubService } from 'src/app/services/HubsServices/signalr-general-hub.service';
@@ -23,13 +24,16 @@ import { SignupComponent } from '../signup/signup.component';
 export class FooterComponent implements OnInit {
 newData=0
 msg=""
+snackBarRef :MatSnackBarRef<any> =null
+to:NodeJS.Timeout=null
 
   constructor(private route:ActivatedRoute,
     public dialog: MatDialog,
     private router:Router,
     private prev:PreviousRouteService,
     private store:Store<StoreInterface>,
-    private signalRService:SignalrGeneralHubService
+    private signalRService:SignalrGeneralHubService,
+    private _snackBar:MatSnackBar
     )
      {
     this.route.queryParamMap.subscribe(params=>{
@@ -38,26 +42,25 @@ msg=""
         let dialogRef 
         if(action=="login"){
         dialogRef= this.dialog.open(LoginComponent, {
-          width: '50%',
-          height:'50%'
+          width: '80%',
+          height:'80%'
         });
         }
         else{
           dialogRef= this.dialog.open(SignupComponent, {
-            width: '50%',
-            height:'50%',
+            width: '80%',
+            height:'80%',
             data: {newAccount:''}
           });
         }
         dialogRef.afterClosed().subscribe(result => {
-          //let url=this.prev.getPreviousUrl()
-          //this.router.navigateByUrl(url)
-          console.log(result)
           let urlTree = this.router.parseUrl(this.router.url);
           if(result!=undefined)//the case when the user create new account succesfully on signup page 
-           urlTree.queryParams = {action: 'login'}; //then he is redirected to login page
+           {
+             urlTree.queryParams = {action: 'login'}; //then he is redirected to login page
+          }
           else
-           urlTree.queryParams = {};  
+              urlTree.queryParams = {};  
 
 
           let back_url= urlTree.toString();
@@ -75,6 +78,7 @@ msg=""
    
 
   ngOnInit(): void {
+    //this.router.onSameUrlNavigation = 'reload'//to reload
     this.signalRService.GetDataStreamFromLongTimeOperation()  
     this.signalRService.hubMessage.subscribe(data=>{
       this.msg=data;
@@ -84,6 +88,34 @@ msg=""
     })
     this.signalRService.hubNewData.subscribe(data=>{
       this.newData=data;
+    })
+    this.signalRService.hubConnectionOff.subscribe(data=>{
+      if(data)
+       {
+        if(this.snackBarRef==null)
+         this.snackBarRef=  this._snackBar.open("Connection OFF")
+        
+         
+    }
+      else
+       {
+         
+         if(this.snackBarRef!=null)
+          {
+            this.snackBarRef.dismiss();
+            this.snackBarRef=null;
+            //clearInterval(this.to)
+            //this.to=null;
+            setTimeout(() => {
+               //to reload
+               this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                return false;
+              };
+              this.router.navigateByUrl(this.router.url)
+            }, 2000);
+          }  
+          
+  }
     })
   }
 

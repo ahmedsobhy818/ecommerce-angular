@@ -13,4 +13,13 @@
   .alert.alert-success{
       color: green;
   }
-  
+  #spinnerEmail{
+    
+    margin-left: -30px;
+    display:inline-block  
+}  
+#spinnerSubmit{
+  position: absolute;
+    top: 23%;
+    left: 35%
+} 

@@ -19,6 +19,9 @@
 <mat-toolbar color="warn">
 <span (click)="goHome()" class="brand" >{{StoreName}}</span>  
 <span class="example-spacer"></span>
+<button  mat-icon-button class="example-icon favorite-icon" matBadge="{{nNewNotifications}}" matBadgeColor="primary" aria-label="Example icon-button with a menu" (click)="gotoNotifications()">
+  <mat-icon style="font-size: 50px;color:'#fff'">notifications_active</mat-icon>
+  </button> 
 <button  mat-icon-button class="example-icon favorite-icon" matBadge="{{nWishList}}" matBadgeColor="primary" aria-label="Example icon-button with a menu" (click)="gotoWishlist()">
 <mat-icon style="font-size: 50px;color:'#fff'">favorite</mat-icon>
 </button>

@@ -9,6 +9,7 @@
     <button mat-button *ngIf="Keyword" matSuffix mat-icon-button aria-label="Clear" (click)="Keyword=''">
       <mat-icon style="color: red">close</mat-icon>
     </button>
+    
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       
       <mat-option *ngFor="let option of filteredProducts | async" [value]="option.data" (click)="doSelectProduct(option.value)" [disabled]="option.value==undefined">
@@ -16,9 +17,10 @@
       </mat-option>
       
     </mat-autocomplete>
+
   
   </mat-form-field>
-  
+  <mat-spinner id="spinner" *ngIf="showSpinner" [diameter]="25" ></mat-spinner>
   <mat-form-field appearance="fill" style="margin: auto 20px;">
     <mat-label>Order By</mat-label>
     <mat-select [(ngModel)]="OrderBy" >
@@ -93,8 +95,7 @@
                [hidePageSize]="true"
                (page)="changePage($event)">
 </mat-paginator>
-<!--<div *ngIf="showSpinner" style="opacity: 50%; height: 100%;width:100%;z-index:1000;position:absolute;top:0;left: 0%;background-color: #fff">
-<mat-spinner style="top:50vh;left:calc(50% - 20px);opacity: 100%;"></mat-spinner>
-</div>-->
+
+
 <app-footer></app-footer>
 </div>

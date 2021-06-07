@@ -5,10 +5,11 @@ import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { NotificationComponent } from './components/notification/notification.component';
 import { OrderComponent } from './components/order/order.component';
 import { ProductComponent } from './components/product/product.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
-
+  
 const routes: Routes = [
   {path:'',component:HomeComponent},
   {path:'Products',component:HomeComponent},
@@ -22,13 +23,14 @@ const routes: Routes = [
   {path:'Products/Checkout',component:CheckoutComponent},
   {path:'Products/Orders',component:OrderComponent},
   {path:'Products/Orders/:id',component:OrderComponent},
+  {path:'Account/Notifications',component:NotificationComponent},
   //{path:'Login',component:LoginComponent},
   {path:'admin' , loadChildren:()=> import('./admin/admin.module').then(m => m.AdminModule)}//route to the admin module
-  
+   
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes,{ onSameUrlNavigation: 'reload' })],
+  exports: [RouterModule] 
 })
 export class AppRoutingModule { }

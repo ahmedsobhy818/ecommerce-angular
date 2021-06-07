@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { retry } from 'rxjs/operators'
-import { SignalrHubServiceForUser } from 'src/app/services/HubsServices/signalr-hub-service.service'
 import { LOGIN, LOGOUT } from '../actions/logged.action'
 import { CustomAction } from '../store'
 
@@ -10,7 +9,14 @@ export interface User{ //interface of this State , we used it in "StoreInterface
     Gender:string,
     Name:string,
     UserName:string,
-    //jwt:string  ,//for jwt authentication
+    Address:string,
+    PhotoURL:string,
+    State:boolean,
+    UserType:string, 
+    canAddNewAdmin:boolean,
+    DefaultPage:string,
+    URL:string,
+    policies:number,
     token:string //for asp.net core basic  authentication and jwt authentication
 }
 //initial state of "logged" come from local storage

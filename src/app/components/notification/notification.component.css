@@ -1,0 +1,30 @@
+body{
+    margin-top:20px;
+    background-color: #f0f2f5;
+}
+.container{
+    margin-top: 100px;
+    min-height: 1000px;
+}
+.dropdown-list-image {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-right: 50px;
+}
+.dropdown-list-image img {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.btn-light {
+    color: #2cdd9b;
+    background-color: #e5f7f0;
+    border-color: #d8f7eb;
+}
+
+.msg{
+    margin:10px auto
+}
+.NotSeen{
+    font-weight:bold
+}

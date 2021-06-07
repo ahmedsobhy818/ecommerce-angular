@@ -1,0 +1,88 @@
+
+<app-header></app-header>
+<div *ngIf="!isLogged" class="alert alert-danger">
+    You are not authorized to see notifications page
+ </div>
+
+
+ <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />-->
+
+<div *ngIf="isLogged" class="container">
+    <div class="row">
+        <div class="col-lg-3 left">
+            <div class="box shadow-sm mb-3 rounded bg-white ads-box text-center">
+                <img [src]="photo" class="img-fluid" alt="Responsive image" />
+            </div>
+            
+        </div>
+        <div class="col-lg-9 right">
+            <div class="box shadow-sm rounded bg-white mb-3">
+                <div class="box-title border-bottom p-3">
+                    <h6 class="m-0">Recent</h6>
+                </div>
+                <div *ngFor="let item of NewNotifications" [ngClass]="{'NotSeen': !item.notification.Seen}" class="box-body p-0">
+                    <div class="p-3 d-flex align-items-center bg-light border-bottom osahan-post-header">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" [src]="item.notification.Sender!=null?item.notification.Sender.ProfilePhoto:'../../../assets/imgs/system.png'" alt="" />
+                        </div>
+                        <div class="font-weight-bold mr-3">
+                            <div class="text-truncate">From {{item.notification.Sender!=null?item.notification.Sender.Name:'System'}}</div>
+                            <div class="small msg">{{item.notification.Message}}</div>
+                            <a [routerLink]="getlink(item)" routerLinkActive="router-link-active"  target="_blank" (click)="DoAction(item)" class="btn btn-outline-success btn-sm">Do Action</a>
+                        </div>
+                        <span class="ml-auto mb-auto">
+                            <!--<div class="btn-group">
+                                <button type="button" class="btn btn-light btn-sm rounded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <button class="dropdown-item" type="button"><i class="mdi mdi-delete"></i> Delete</button>
+                                    <button class="dropdown-item" type="button"><i class="mdi mdi-close"></i> Turn Off</button>
+                                </div>
+                            </div>-->
+                            <br />
+                            <div class="text-right text-muted pt-1">{{item.PeriodString}} Ago</div>
+                        </span>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="box shadow-sm rounded bg-white mb-3">
+                <div class="box-title border-bottom p-3">
+                    <h6 class="m-0">Earlier</h6>
+                </div>
+                <div class="box-body p-0">
+                    <div *ngFor="let item of OldNotifications" [ngClass]="{'NotSeen': !item.notification.Seen}" class="box-body p-0">
+                        <div class="p-3 d-flex align-items-center bg-light border-bottom osahan-post-header">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle" [src]="item.notification.Sender!=null?item.notification.Sender.ProfilePhoto:'../../../assets/imgs/system.png'" alt="" />
+                            </div>
+                            <div class="font-weight-bold mr-3">
+                                <div class="text-truncate">From {{item.notification.Sender!=null?item.notification.Sender.Name:'System'}}</div>
+                                <div class="small msg">{{item.notification.Message}}</div>
+                                <a [routerLink]="getlink(item)" routerLinkActive="router-link-active"  target="_blank" (click)="DoAction(item)" class="btn btn-outline-success btn-sm">Do Action</a>
+                            </div>
+                            <span class="ml-auto mb-auto">
+                                <!--<div class="btn-group">
+                                    <button type="button" class="btn btn-light btn-sm rounded" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item" type="button"><i class="mdi mdi-delete"></i> Delete</button>
+                                        <button class="dropdown-item" type="button"><i class="mdi mdi-close"></i> Turn Off</button>
+                                    </div>
+                                </div>-->
+                                <br />
+                                <div class="text-right text-muted pt-1">{{item.PeriodString}} Ago</div>
+                            </span>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <app-footer></app-footer>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AccountService } from 'src/app/services/account.service';
+import { LoadingService } from 'src/app/services/loading-service.service';
 import { LoginAction } from 'src/app/Store/actions/logged.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { StoreInterface } from 'src/app/Store/store';
@@ -16,9 +17,10 @@ export class LoginComponent implements OnInit {
   message=''
   isLogged=false
   alert=''
-
+  submitSpinner=false
   constructor(private service:AccountService,
               private store:Store<StoreInterface>,
+              private loadingService:LoadingService,
               public dialogRef: MatDialogRef<LoginComponent>) {
                 store.select(loggedSelector).subscribe((data)=>{
                   this.isLogged= data!=null
@@ -28,6 +30,21 @@ export class LoginComponent implements OnInit {
                     this.message='aleady logged in'          
                   }
                 })
+
+                this.loadingService.SmallLoadingBehaviour.subscribe(data=>{
+                  if(data==null)
+                  return;
+        
+                  let SpinnerVarName=data.SpinnerVarName
+                  let ShowSpinner=data.ShowSpinner
+                  if(ShowSpinner)
+                   this[SpinnerVarName]=ShowSpinner
+                   else{
+                    setTimeout(() => {
+                      this[SpinnerVarName]=ShowSpinner
+                    }, 1000);} 
+                })
+
                }
   onSubmit(f){
     
@@ -36,7 +53,7 @@ export class LoginComponent implements OnInit {
     Password:f.form.value.password
          }
          this.ShowMessage=false;
-         this.service.doLogin(obj).subscribe((data)=>{
+         this.service.doLogin(obj,"submitSpinner").subscribe((data)=>{
               let Logged=data['Data']
               //Logged.jwt=data['jwt']
               Logged.token=data['token']

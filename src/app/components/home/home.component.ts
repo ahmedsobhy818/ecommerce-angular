@@ -13,6 +13,8 @@ import { IncrementQuantityAction, RemoveAllAction, RemoveProductAction, SetQuant
 import { LoadSettingsAction } from 'src/app/Store/actions/settings.action';
 import { ToggleProductInWishlistAction } from 'src/app/Store/actions/wishlist.action';
 import { Wishlist, wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
+import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
+import { LoadingService } from 'src/app/services/loading-service.service';
 
 @Component({
   selector: 'app-home',
@@ -41,14 +43,18 @@ CatName0
  nPages
  nProducts
  ProductID
- //showSpinner
+ showSpinner=false
  WishList:Wishlist
-
+ //Logged
+myName="ahmed sobhy***************8"
+key="myName"
   constructor(private service:ProductsService,
     private router:Router,
     private route:ActivatedRoute,
-    private store:Store<StoreInterface>) {
+    private store:Store<StoreInterface>,
+    private loadidngService:LoadingService) {
       
+      console.log(this[this.key])
       this.route.paramMap.subscribe(
         params=>{
           this.OrderBy=params.get('OrderBy')==null?'Latest':params.get('OrderBy')
@@ -61,7 +67,7 @@ CatName0
           this.PageIndex=params.get('PageIndex')==null?1:params.get('PageIndex')
           this.ProductID=params.get('ProductID')==null?-1:params.get('ProductID')
 
-console.log(this.ProductID)
+//console.log(this.ProductID)
           
           
           service.getCatID({"Name":this.CatName}).subscribe(
@@ -83,17 +89,27 @@ console.log(this.ProductID)
           
          this.WishList=data
         })
+       
+        loadidngService.SmallLoadingBehaviour.subscribe(data=>{
+          if(data==null)
+          return;
+
+          let SpinnerVarName=data.SpinnerVarName// will equal "spinnerName" which is the value sent in the header of the request
+          let ShowSpinner=data.ShowSpinner
+          if(ShowSpinner)
+           this[SpinnerVarName]=ShowSpinner
+           else{
+            setTimeout(() => {
+              this[SpinnerVarName]=ShowSpinner
+            }, 1000);}
+        })
   }
   ngAfterViewInit(): void {
-   // setTimeout(() => {
-   //   this.showSpinner=false  //test to hide spinner after someetime
-   // }, (3000));
     
   }
   ngOnInit(): void {
-    console.log('start')
+    
 
-    //this.showSpinner=true
     this.myControl.valueChanges.pipe( //autocomplete element of angular material
       //to do this , in the input tag we added :[formControl]="myControl"
       //this is Reactive Forms technique , we must add "ReactiveFormsModule" in the imports of app.module
@@ -104,7 +120,8 @@ console.log(this.ProductID)
      $arr=  term==""?of([{data:'No Data'}]): this.getProducts(term)
      return $arr     
   })
-    ).subscribe(data=>this.filteredProducts=data)
+    ).subscribe(data=>{this.filteredProducts=data;  })
+    
   /////
   this.service.getAllCats().subscribe(data=>this.AllCats=data['records'])
   this.Initialize()
@@ -120,8 +137,9 @@ console.log(this.ProductID)
       "PageSize":this.PageSize,
       "Keyword":this.Keyword,
       "OrderBy":this.OrderBy,
-      "CatID":this.CatID
-     };
+      "CatID":this.CatID//,
+      //"LoggedUserID":this.Logged?.ID  
+     }; 
 
      this.service.getProducts(obj).subscribe(data=>{
       this.products=data['records'];
@@ -161,9 +179,10 @@ console.log(this.ProductID)
 getProducts(term)
 {
   console.log(`term: ${term}`)
+  
  return this.service.doAutocompletePrdoducts({
     "term":term
-  })
+  },"showSpinner")
 }
 doSelectCat(e){
   //console.log(id)
@@ -191,6 +210,11 @@ doSearch(){
     PageSize=this.PageSize0
     CatName=this.CatName0
    }
+   //reload
+   this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    return false;
+  };
+   //
    if(this.Keyword!='')
      this.router.navigate(['Products',CatName,OrderBy,this.Keyword,PageSize,x]);   
     else

@@ -152,6 +152,8 @@ this.service.addComment(obj).subscribe(data=>{
   let msg="";
   if(e.error==null && e.status==401)
     msg="UnAuthorized Error - 401"
+    if(e.error==null && e.status==403)
+    msg="UnAuthorized Error - 403"     
   if(e.error!=null)
    msg=e.error.Message 
 

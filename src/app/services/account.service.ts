@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs/internal/observable/of';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -8,16 +9,53 @@ import { environment } from 'src/environments/environment';
 export class AccountService {
 
   constructor(private http:HttpClient) { }
-  doSignUp(obj) {
-    return this.http.post(environment.AppName + '/api/queries/signup.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+  doSignUp(obj,SpinnerVarName) {
+    let headers = new HttpHeaders(); 
+     //dont use large blue spinner 
+     //, we will use our custom small spinner in this request 
+     //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+     headers = headers.set('CustomSpinner',SpinnerVarName);
+
+    return this.http.post(environment.AppName + '/api/queries/signup.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers:headers})        
   
   }
-   doLogin(obj) {
-    return this.http.post(environment.AppName + '/api/queries/login.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+   doLogin(obj,SpinnerVarName) {
+    let headers = new HttpHeaders(); 
+     //dont use large blue spinner 
+     //, we will use our custom small spinner in this request 
+     //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+     headers = headers.set('CustomSpinner',SpinnerVarName);
+
+    return this.http.post(environment.AppName + '/api/queries/login.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers:headers})        
     
   }
-  checkEmailExist(obj){
+  checkEmailExist(obj,SpinnerVarName){
+    let headers = new HttpHeaders(); 
+ //dont use large blue spinner 
+ //, we will use our custom small spinner in this request 
+ //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+ headers = headers.set('CustomSpinner',SpinnerVarName);
+ 
+    return this.http.post(environment.AppName + '/api/queries/check-username.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers:headers})        
+  }
+  getNewNotificationsCount(obj){
+    if(obj.ID == undefined)
+     return of(0);
+
+     let headers = new HttpHeaders();
+     headers = headers.set('Authorization', obj.token);
+   
     console.log(obj)
-    return this.http.post(environment.AppName + '/api/queries/check-username.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
+    return this.http.post(environment.AppName + '/api/queries/NewNotificationsCount.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})        
+  }
+  getNotifications(obj){
+    // 
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', obj.token);
+  
+    return this.http.post(environment.AppName + '/api/queries/GetNotifications.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers: headers})        
+  }
+  SeeThisNotification(obj){
+    return this.http.post(environment.AppName + '/api/queries/SeeANotifications.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LogoutAction } from 'src/app/Store/actions/logged.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { StoreInterface } from 'src/app/Store/store';
@@ -13,18 +14,31 @@ import { environment } from 'src/environments/environment';
 export class SignalrHubServiceForUser {  
 connection:HubConnection
 Logged
-   constructor(private store:Store<StoreInterface>) { 
-    store.select(loggedSelector).subscribe(data=>{
-      this.Logged=data 
-      console.log(data)
-      console.log("----------")
-      if(data==null && this.connection?.state==HubConnectionState.Connected){
-        console.log("******* do log out *******")  
-        this.connection.stop()
+hubNewNotify: BehaviorSubject<boolean>; //used to return observable contain the returned data from the hub
+hubNewNotifyObject: BehaviorSubject<any>; //used to return observable contain the returned data from the hub
+hubDecrementNotify: BehaviorSubject<boolean>; 
+lastLoggedID
+
+constructor(private store:Store<StoreInterface>) { 
+  this.hubNewNotify=new BehaviorSubject<boolean>(false);
+  this.hubNewNotifyObject=new BehaviorSubject<any>(null);
+  this.hubDecrementNotify=new BehaviorSubject<boolean>(false);
+
+  store.select(loggedSelector).subscribe(data=>{
+    this.Logged=data 
+
+    if(data==null){
+        console.log("******* did log out *******")  
+        //all logged users having userId=my userId must be log out
+        this.connection?.invoke("ForceLogOutAllSimilarInstances",this.lastLoggedID).then(data=>{
+          this.connection?.stop()//after this close my connection
+        })
+        
       }
-      if(data!=null && this.connection?.state==HubConnectionState.Disconnected){
-        console.log("******* do log in *******")  
-        this.connection.start() 
+      if(data!=null){
+        console.log("******* did log in *******")  
+        this.lastLoggedID=data.ID
+         this.initiateSignalrConnection()//start the connection with new token
       }
 
     })
@@ -33,15 +47,25 @@ Logged
       this.connection.on('broadcastMessage', (message: string) => {
         console.log(message)
       });
-      this.connection.onclose(e=>{
-        //basic work of hub reconnecting
-        alert(`the error is : ${e.message}`)
-        this.connection.start()
-      })
+      
+      this.connection.on('NewNotification', (notification/*: UserNotification*/) => {
+        console.log(notification)
+        this.hubNewNotify.next(true)  //pass it to the header
+        this.hubNewNotifyObject.next(notification)//pass it to notification component
+      });
+      this.connection.on('ForceLogOut', () => {
+            console.log('force log out')
+            this.store.dispatch(new LogoutAction())
+            this.hubNewNotify.next(false)  //pass to header to reset the counter
+        
+      });
+      
+      
     }
 
     
   public initiateSignalrConnection(): Promise<any>{
+    
     return new Promise((resolve, reject) => {
       this.connection = new HubConnectionBuilder() 
        .withUrl(environment.AppName + '/hub_user',{
@@ -56,20 +80,40 @@ Logged
           //return "Basic YWhtZWRzb2JoeUBnbWFpbC5jb206ODE4"
       }
        }) // the SignalR server url
-        .build();
-        
+       .withAutomaticReconnect({
+        nextRetryDelayInMilliseconds: retryContext => {
+           // if (retryContext.elapsedMilliseconds < 180000) {
+                // If we've been reconnecting for less than 180 seconds so far,
+                // wait  10 seconds before the next reconnect attempt.
+                return  10000;
+           // } else {
+                // If we've been reconnecting for more than 180 seconds so far, stop reconnecting.
+             //   return null;
+           // }
+        }
+    })// 
+       .build();
+
+        //if(this.Logged==null)  
+        //  return;  
+
+        //this.connection.serverTimeoutInMilliseconds=5*60*1000
+        //this.connection.keepAliveIntervalInMilliseconds=60*1000
         this.setSignalRHandlers();
-        
+  // this.connection.stop()
+
       this.connection
         .start()
         .then(() => {
-          console.log(`SignalR connection success! connectionId: ${this.connection.connectionId} `);
+          console.log(`User SignalR connection success! connectionId: ${this.connection.connectionId} `);
       
           
          
           if(this.Logged!=null){  
           this.connection  .invoke('Hello').then(data=>{},e=>{
-            //if wrong token. so need logout
+            //when i connect i need to access the authorized method
+            //"Hello" in the hub , if i failed then this means i have 
+            //wrong token , so i must log out
             console.log('force log out')
             this.store.dispatch(new LogoutAction())
           })
@@ -82,14 +126,12 @@ Logged
           reject();
         });
          ////
-  
-
   ////
     });
-  
- 
-  
   }
-  
+
+  DecreseCounter(){
+    this.hubDecrementNotify.next(true)
+  }
 }
 
