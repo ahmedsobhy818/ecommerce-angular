@@ -31,6 +31,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MyInterceptor } from './interceptor';
 import { NotificationComponent } from './components/notification/notification.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { Service0Service } from './services/service0.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { NotificationComponent } from './components/notification/notification.co
     OrderComponent,
     WishlistComponent,
     SpinnerComponent,
-    NotificationComponent
+    NotificationComponent,
+    ProfileComponent
     
   ],
   imports: [
@@ -69,7 +72,13 @@ import { NotificationComponent } from './components/notification/notification.co
       useClass:MyInterceptor,
       multi:true
     },
-    
+    Service0Service,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (service: Service0Service) => () => service.Initialize(),
+      deps: [Service0Service],
+      multi: true
+    },
     SignalrGeneralHubService,
     {
       provide: APP_INITIALIZER,
@@ -92,8 +101,9 @@ export class AppModule {
    *
    */
   constructor() {
-    if(environment.isDotNetCore)
-      environment.AppName=environment.AppNameForDotNetCore
+    
+    //if(environment.isDotNetCore)
+    //  environment.AppName=environment.AppNameForDotNetCore
      
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as signalR from '@microsoft/signalr';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -65,7 +66,7 @@ constructor(private store:Store<StoreInterface>) {
 
     
   public initiateSignalrConnection(): Promise<any>{
-    
+    console.log(environment.AppName + " in signalrR user initiate")
     return new Promise((resolve, reject) => {
       this.connection = new HubConnectionBuilder() 
        .withUrl(environment.AppName + '/hub_user',{
@@ -85,7 +86,7 @@ constructor(private store:Store<StoreInterface>) {
            // if (retryContext.elapsedMilliseconds < 180000) {
                 // If we've been reconnecting for less than 180 seconds so far,
                 // wait  10 seconds before the next reconnect attempt.
-                return  10000;
+                return   10000;
            // } else {
                 // If we've been reconnecting for more than 180 seconds so far, stop reconnecting.
              //   return null;
@@ -109,7 +110,7 @@ constructor(private store:Store<StoreInterface>) {
       
           
          
-          if(this.Logged!=null){  
+          if(this.Logged!=null && this.connection.connectionId!=null){  
           this.connection  .invoke('Hello').then(data=>{},e=>{
             //when i connect i need to access the authorized method
             //"Hello" in the hub , if i failed then this means i have 
@@ -123,6 +124,7 @@ constructor(private store:Store<StoreInterface>) {
         })
         .catch((error) => {
           console.log(`SignalR connection error: ${error}`);
+          console.log(this.connection.connectionId)
           reject();
         });
          ////

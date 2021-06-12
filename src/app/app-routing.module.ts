@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { OrderComponent } from './components/order/order.component';
 import { ProductComponent } from './components/product/product.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
   
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:'Products/Orders',component:OrderComponent},
   {path:'Products/Orders/:id',component:OrderComponent},
   {path:'Account/Notifications',component:NotificationComponent},
+  {path:'Account/Profile',component:ProfileComponent},
   //{path:'Login',component:LoginComponent},
   {path:'admin' , loadChildren:()=> import('./admin/admin.module').then(m => m.AdminModule)}//route to the admin module
    

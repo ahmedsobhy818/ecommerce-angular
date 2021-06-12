@@ -60,10 +60,12 @@
  
 
   <button  mat-icon-button  class="example-icon favorite-icon" *ngIf="!isLogged"  [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu" >
-    <mat-icon style="font-size: 50px">perm_identity</mat-icon>
+    <!--<mat-icon style="font-size: 50px">perm_identity</mat-icon>-->
+    <img [src]="getimg(Logged?.PhotoURL)" style="height: 30px;width:30px;border-radius: 50%;">
   </button>
   <button  mat-icon-button class="example-icon favorite-icon" *ngIf="isLogged" [matMenuTriggerFor]="menu3" aria-label="Example icon-button with a menu" >
-    <mat-icon style="font-size: 50px">perm_identity</mat-icon>
+    <!--<mat-icon style="font-size: 50px">perm_identity</mat-icon>-->
+    <img [src]="getimg(Logged?.PhotoURL)" style="height: 50px;width:50px;border-radius: 50%;">
   </button>
   <div class="welcome" *ngIf="isLogged" >Welcome, {{Logged.Name}}</div>
   <mat-menu  #menu2="matMenu">
@@ -79,6 +81,10 @@
       
   </mat-menu>
   <mat-menu class="mnu3"  #menu3="matMenu">
+    <button mat-menu-item>
+      
+        <span><a [routerLink]="['/Account/Profile']" >Profile</a></span>
+    </button>
     <button mat-menu-item>
       
         <span><a [routerLink]="['/Products/Orders']" >Orders</a></span>

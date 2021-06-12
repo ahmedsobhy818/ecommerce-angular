@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   isDotNetCore:true,
-  AppName:'http://localhost:8020/Ecommerce-php',//url for the api and images paths 
+  AppName:'http://localhost:8020/Ecommerce-php',//url for the php api and images paths 
   AppNameForDotNetCore:'https://localhost:44353'// url of the e.net core api - project TestEcommerceAPI hosted on visual studido's iis
 };
 

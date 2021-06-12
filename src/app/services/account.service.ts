@@ -58,4 +58,24 @@ export class AccountService {
   SeeThisNotification(obj){
     return this.http.post(environment.AppName + '/api/queries/SeeANotifications.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj))        
   }
+  uploadPhoto(obj,SpinnerVarName){  
+    let headers = new HttpHeaders(); 
+    //dont use large blue spinner 
+    //, we will use our custom small spinner in this request 
+    //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+    headers = headers.set('CustomSpinner',SpinnerVarName);
+    return this.http.post(environment.AppName + '/api/queries/UploadProfilePhoto.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), {reportProgress: true, observe: 'events', headers:headers})
+  }
+  EditProfile(obj,SpinnerVarName){
+    let headers = new HttpHeaders(); 
+    //dont use large blue spinner 
+    //, we will use our custom small spinner in this request 
+    //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+    headers = headers.set('CustomSpinner',SpinnerVarName);
+    headers = headers.set('Authorization', obj.token);
+    
+    return this.http.post(environment.AppName + '/api/queries/EditProfile.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
+   
+                                                 
+  }
 }

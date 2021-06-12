@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
 newData=0
 msg=""
 snackBarRef :MatSnackBarRef<any> =null
-to:NodeJS.Timeout=null
+
 
   constructor(private route:ActivatedRoute,
     public dialog: MatDialog,
@@ -104,8 +104,7 @@ to:NodeJS.Timeout=null
           {
             this.snackBarRef.dismiss();
             this.snackBarRef=null;
-            //clearInterval(this.to)
-            //this.to=null;
+            
             setTimeout(() => {
                //to reload
                this.router.routeReuseStrategy.shouldReuseRoute = function () {

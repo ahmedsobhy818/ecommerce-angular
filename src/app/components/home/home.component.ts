@@ -45,16 +45,14 @@ CatName0
  ProductID
  showSpinner=false
  WishList:Wishlist
- //Logged
-myName="ahmed sobhy***************8"
-key="myName"
+ 
+ 
   constructor(private service:ProductsService,
     private router:Router,
     private route:ActivatedRoute,
     private store:Store<StoreInterface>,
     private loadidngService:LoadingService) {
-      
-      console.log(this[this.key])
+ 
       this.route.paramMap.subscribe(
         params=>{
           this.OrderBy=params.get('OrderBy')==null?'Latest':params.get('OrderBy')
@@ -90,6 +88,7 @@ key="myName"
          this.WishList=data
         })
        
+        //to show/hide small spinner beside the autocompleete
         loadidngService.SmallLoadingBehaviour.subscribe(data=>{
           if(data==null)
           return;

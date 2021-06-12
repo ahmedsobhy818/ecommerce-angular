@@ -8,6 +8,7 @@ import { SignalrHubServiceForUser } from 'src/app/services/HubsServices/signalr-
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
 import { StoreInterface } from 'src/app/Store/store';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -60,13 +61,19 @@ constructor(private store:Store<StoreInterface>,
       this.nWishList=data.wishlistItems?.length==0?'':data.wishlistItems?.length
     })
     store.select(loggedSelector).subscribe(log_data=>{
-      console.log("HEADER LOGGED SELECTOR")
-      service.getNewNotificationsCount({
-        "ID":this.Logged?.ID,
-        "token":this.Logged?.token
-      }).subscribe(
-        data=>this.nNewNotifications=data!=0?data:''
-      )
+      this.nNewNotifications='';  
+
+      if(this.Logged!=null){
+        service.getNewNotificationsCount({
+          "ID":this.Logged?.ID,
+          "token":this.Logged?.token
+        }).subscribe(
+          data=>this.nNewNotifications=data!=0?data:''
+        )
+      }
+
+      
+
     })
 
     
@@ -74,13 +81,13 @@ constructor(private store:Store<StoreInterface>,
 
   ngOnInit(): void {
     this.SignalRForUser.hubNewNotify.subscribe(data=>{
-      if(data)
+      if(data && this.Logged!=null)
        this.nNewNotifications++;
       else
        this.nNewNotifications=''
     })
     this.SignalRForUser.hubDecrementNotify.subscribe(data=>{
-      if(data)
+      if(data && this.nNewNotifications>0 &&  this.Logged!=null)
        this.nNewNotifications--;
 
        if(this.nNewNotifications==0)
@@ -96,6 +103,14 @@ constructor(private store:Store<StoreInterface>,
   }
   gotoNotifications(){
     this.router.navigate(['Account','Notifications']);     
+  }
+  getimg(url){
+    if(url==null || url==undefined)
+      return environment.AppName + "/images/users/M.png"
+    if(url=='')
+     return environment.AppName + "/images/users/" + this.Logged.Gender + ".png"  
+
+     return environment.AppName + "/images/users/" + url
   }
 /*
   gotoCart(){

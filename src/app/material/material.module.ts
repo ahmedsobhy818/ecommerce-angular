@@ -19,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import  {MatDialogModule } from '@angular/material/dialog'
 import {MatRadioModule} from '@angular/material/radio'
 import {MatSnackBarModule } from '@angular/material/snack-bar'
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 //module for using material cmponents
 
 let materialComponents=[
@@ -41,7 +41,8 @@ MatTableModule,
 MatTooltipModule,
 MatDialogModule,
 MatRadioModule,
-MatSnackBarModule
+MatSnackBarModule,
+MatProgressBarModule
 ]
 
 @NgModule({

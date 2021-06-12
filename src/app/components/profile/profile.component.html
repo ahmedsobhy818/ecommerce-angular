@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div *ngIf="Logged==null">
+  You have to <a routerLink="." [queryParams]="{action:'login'}" >login</a> to see your orders 
+</div>
+
+<div class="head" *ngIf="Logged!=null">
+<div>
+    <img [src]="getImage()">
+    <h1>{{Logged.Name}}</h1>
+    <h3>({{Logged.UserType}})</h3>
+</div>
+</div>
+<div class="container" *ngIf="Logged!=null">
+    <form #f=ngForm>
+<mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Address</mat-label>
+    <input matInput ngModel [(ngModel)]="Address"  name="Address" #address=ngModel required >
+  </mat-form-field>
+  <div *ngIf="address.touched ">
+      <div *ngIf="address.errors?.required">Address is a required field!</div>
+ </div>
+
+ <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Phone</mat-label>
+    <input matInput ngModel [(ngModel)]="Phone" name="Phone" #phone=ngModel required >
+  </mat-form-field>
+  <div *ngIf="phone.touched ">
+      <div *ngIf="phone.errors?.required">Phone is a required field!</div>
+ </div>
+
+ <mat-form-field *ngIf="Logged?.UserType=='Vendor'" class="example-full-width" appearance="fill">
+    <mat-label>Website</mat-label>
+    <input matInput ngModel [(ngModel)]="URL"  name="Website" #website=ngModel required >
+  </mat-form-field>
+  <div *ngIf="website?.touched && Logged?.UserType=='Vendor' ">
+      <div *ngIf="website.errors?.required">Website is a required field!</div>
+ </div>
+ <div class="form-group">
+    <label  class="col-lg-2 control-label">Photo</label>
+    <div class="col-lg-10">
+        <input type="file" (change)="uploadFile(photo.files)"  name="Photo" #photo  class="filestyle" data-classbutton="btn btn-default btn-lg" data-input="false" id="filestyle-0" tabindex="-1" style="position: fixed; left: -500px;">
+        <div class="bootstrap-filestyle input-group"><input type="text" class="form-control " disabled="" placeholder="Choose file"> <span class="input-group-btn" tabindex="0">  <label for="filestyle-0" class="btn btn-default btn-lg">    <mat-icon style="font-size: 50px;color:'#000'">drive_folder_upload</mat-icon>   </label></span></div>
+    </div>   
+    <div *ngIf="photo.touched ">
+        <div *ngIf="photo.errors?.required">Photo is a required field!</div>
+   </div>
+   <div class="col-md-4">
+    <span class="upload" *ngIf="progress >0  && progress<100 && uploadError==''">
+       {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message &&  uploadError==''">
+      {{message}}
+    </span>
+    <!--<mat-progress-bar *ngIf="progress!=0 && progress !=100" mode="determinate" [value]="progress"></mat-progress-bar>-->
+    <mat-progress-bar *ngIf="showProgressBar" mode="determinate" [value]="progress"></mat-progress-bar>
+
+<div *ngIf="uploadError!=''" class="alert alert-danger">{{uploadError}}</div>
+  </div> 
+</div>
+
+<button mat-button style="margin: 50px auto;width: 200px;"   mat-raised-button color="primary"   (click)="Send()" [disabled]="showSpinner || f.invalid">
+  Update Profile
+  <mat-spinner id="spinner"  *ngIf="showSpinner" [diameter]="25" ></mat-spinner>
+</button>
+
+</form>
+
+</div>
+<app-footer></app-footer>

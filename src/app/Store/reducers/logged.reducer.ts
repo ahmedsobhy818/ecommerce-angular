@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { retry } from 'rxjs/operators'
-import { LOGIN, LOGOUT } from '../actions/logged.action'
+import { LOGIN, LOGOUT, UPDATEPROFILE } from '../actions/logged.action'
 import { CustomAction } from '../store'
 
 export interface User{ //interface of this State , we used it in "StoreInterface" interface in store.ts file
@@ -12,6 +12,7 @@ export interface User{ //interface of this State , we used it in "StoreInterface
     Address:string,
     PhotoURL:string,
     State:boolean,
+    Phone:string,
     UserType:string, 
     canAddNewAdmin:boolean,
     DefaultPage:string,
@@ -36,6 +37,16 @@ export function loggedReducer(state:User=initialState,action:CustomAction){ //th
         case LOGOUT:
             ret=null
             localStorage.removeItem('Logged')
+            break; 
+        case UPDATEPROFILE:
+            var obj=JSON.parse( localStorage.getItem('Logged') )
+            obj.Address=action.payload.Address
+            obj.Phone=action.payload.Phone
+            obj.URL=action.payload.URL
+            obj.PhotoURL=action.payload.Photo
+            console.log(obj)
+            localStorage.setItem('Logged',JSON.stringify(obj))
+            ret=obj
             break;
      default: 
           ret= state

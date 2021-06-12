@@ -1,0 +1,32 @@
+mat-form-field{
+    display:block;
+    margin:40px auto 20px
+
+}
+.head{
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+.container{
+    min-height: 500px;
+}
+.head >div{
+    text-align: center;
+}
+.head img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    border:1px
+}
+.btn-success{
+    margin-top: 50px;
+}
+#spinner{
+    
+    margin-left: -60px;
+    display:inline-block  
+}
