@@ -5,6 +5,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { OrderComponent } from './components/order/order.component';
 import { ProductComponent } from './components/product/product.component';
@@ -28,11 +29,17 @@ const routes: Routes = [
   {path:'Account/Profile',component:ProfileComponent},
   //{path:'Login',component:LoginComponent},
   {path:'admin' , loadChildren:()=> import('./admin/admin.module').then(m => m.AdminModule)}//route to the admin module
-   
+  ,{path:'administration' , loadChildren:()=>import('./administration/administration.module').then(m=>m.AdministrationModule)}
+  ,{path:'**' , component:NotFoundComponent}  
+  
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{ onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes,
+    { 
+      onSameUrlNavigation: 'reload'// ,
+      //enableTracing: false
+  })],
   exports: [RouterModule] 
 })
 export class AppRoutingModule { }

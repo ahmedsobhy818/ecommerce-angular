@@ -33,6 +33,7 @@ import { MyInterceptor } from './interceptor';
 import { NotificationComponent } from './components/notification/notification.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { Service0Service } from './services/service0.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { Service0Service } from './services/service0.service';
     WishlistComponent,
     SpinnerComponent,
     NotificationComponent,
-    ProfileComponent
+    ProfileComponent,
+    NotFoundComponent
     
   ],
   imports: [
