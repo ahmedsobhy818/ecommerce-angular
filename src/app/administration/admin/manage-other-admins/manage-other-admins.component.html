@@ -1,0 +1,51 @@
+
+<div class="container">
+    <div class="alert alert-success" *ngIf="success">New Admin Added </div>
+    <div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+
+    <button class="btn btn-primary" (click)="AddNew()">Add New</button>
+    <form #f=ngForm>
+    <table class="table table-striped table-hover">
+        <thead>
+    <tr>
+        <td></td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Created At</td>
+        <td>Super Admin</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let admin of admins" style="line-height: 50px;">
+    <td>
+        <img class="img" src="{{getimg(admin.Photo,admin.Gender)}}" style="height: 50px;width: 50px;" >
+    </td>
+        <td>{{admin.Name}}</td>
+    
+    <td>{{admin.Email}}</td>
+    <td>{{admin.Time|date:'short'}}</td>  
+    <td>{{admin.isSuper?'Yes':'No'}}</td>
+    <td>
+        <button class="btn btn-success" (click)="activate(admin)" [disabled]="admin.Approved || admin.isSuper || admin.Id==Logged?.ID" >Activate</button>
+         <button class="btn btn-danger" (click)="deActivate(admin)" [disabled]="!admin.Approved || admin.isSuper || admin.Id==Logged?.ID">DeActivate</button>
+    </td>
+    </tr>
+    
+    <tr *ngIf="AddingNew">
+        
+        <td></td>
+        <td><input name="name" #name required ngModel></td>
+        <td><input name="email" #email required email ngModel></td>
+        <td></td>
+        <td>No</td>
+        <td>
+         <button class="btn btn-success" (click)="addNew(f)" [disabled]=" f.invalid" >Save</button>
+         <button class="btn btn-danger" (click)="doCancel()">Cancel</button>
+        </td>
+    
+    </tr>
+
+    </tbody>
+    </table>
+</form>

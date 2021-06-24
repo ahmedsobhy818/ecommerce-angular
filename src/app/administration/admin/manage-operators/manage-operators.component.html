@@ -1,1 +1,34 @@
-<p>manage-operators works!</p>
+
+<div class="container">
+    <div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+    <tr>
+        <td></td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Created At</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users" style="line-height: 50px;">
+    <td>
+        <img class="img" src="{{getimg(user.Photo,user.Gender)}}" style="height: 50px;width: 50px;" >
+    </td>
+        <td>{{user.Name}}</td>
+    
+    <td>{{user.Email}}</td>
+    <td>{{user.Time|date:'short'}}</td>  
+    
+    <td>
+        <button class="btn btn-success" (click)="activate(user)" [disabled]="user.Approved" >Activate</button>
+         <button class="btn btn-danger" (click)="deActivate(user)" [disabled]="!user.Approved">DeActivate</button>
+    </td>
+    </tr>
+    
+    
+    </tbody>
+    </table>
+</div>

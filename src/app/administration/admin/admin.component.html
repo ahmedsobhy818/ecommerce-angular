@@ -1,17 +1,25 @@
-<p>admin works!</p>
+<div *ngIf="Logged?.UserType=='Admin';else error">
+<div class="sidebar">
 
-<ul>
-    <li>
-      <a [routerLink]="'.'" routerLinkActive="active"> Dashboard </a>
-    </li>
-    <li>  
-      <a [routerLink]="'ManageVendors'" routerLinkActive="active"> Manage Vendors </a>
-    </li>
-    <li>
-      <a [routerLink]="'ManageOperators'" routerLinkActive="active"> Manage Operators </a>
-    </li>
-    
-  </ul>
-  ################## <br> 
+    <a [routerLink]="'Dashboard'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Dashboard </a>
+    <a [routerLink]="'../ManageVendors'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Vendors </a>
+    <a [routerLink]="'Operators'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Operators </a>
+    <a [routerLink]="'Roles'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Roles </a>
+    <a [routerLink]="'Settings'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Settings </a>
+    <a [routerLink]="'OtherAdmins'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Other Admins </a>
+    <a [routerLink]="'Categories'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Categories </a>
+    <a [routerLink]="'../Log'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  My Log </a>
+    <a [routerLink]="'../Password'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Change Password </a>
+  </div>
+  
+  <div class="content" >
+    <h2>Admin Module</h2>
     <router-outlet></router-outlet>
-    <br>##################
+  </div>
+</div>
+  <ng-template  #error>
+    <div class="alert alert-danger">You are not an admin</div>
+  </ng-template>
+
+
+

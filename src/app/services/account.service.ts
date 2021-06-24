@@ -78,4 +78,22 @@ export class AccountService {
    
                                                  
   }
+
+  ChangePassword(obj,SpinnerVarName){
+    let headers = new HttpHeaders(); 
+    //dont use large blue spinner 
+    //, we will use our custom small spinner in this request 
+    //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+    headers = headers.set('CustomSpinner',SpinnerVarName);
+    headers = headers.set('Authorization', obj.token);
+    
+    return this.http.post(environment.AppName + '/api/queries/ChangePassword.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
+   
+                                                 
+  }
+  GetMyLog(token){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return this.http.get(environment.AppName + '/api/queries/MyLog.php'.replace('.php',environment.isDotNetCore?'':'.php') ,  { headers:headers})
+  }
 }

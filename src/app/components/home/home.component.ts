@@ -10,7 +10,6 @@ import { ProductsService } from 'src/app/services/products-service.service';
 import { Store } from '@ngrx/store';
 import { StoreInterface } from 'src/app/Store/store';
 import { IncrementQuantityAction, RemoveAllAction, RemoveProductAction, SetQuantityAction } from 'src/app/Store/actions/cart.action';
-import { LoadSettingsAction } from 'src/app/Store/actions/settings.action';
 import { ToggleProductInWishlistAction } from 'src/app/Store/actions/wishlist.action';
 import { Wishlist, wishlistSelector } from 'src/app/Store/reducers/wishlist.reducer';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';

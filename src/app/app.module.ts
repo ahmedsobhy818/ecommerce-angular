@@ -66,7 +66,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     StoreModule.forRoot(reducers /*{counter:counterReducer}*/),  //"reducers"  contains all reducers in the store
     EffectsModule.forRoot([SettingsEeffect])//register the seettings effect
     
-    
+       
   ],
   providers: [
     {

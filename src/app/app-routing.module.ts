@@ -28,8 +28,7 @@ const routes: Routes = [
   {path:'Account/Notifications',component:NotificationComponent},
   {path:'Account/Profile',component:ProfileComponent},
   //{path:'Login',component:LoginComponent},
-  {path:'admin' , loadChildren:()=> import('./admin/admin.module').then(m => m.AdminModule)}//route to the admin module
-  ,{path:'administration' , loadChildren:()=>import('./administration/administration.module').then(m=>m.AdministrationModule)}
+  {path:'administration' , loadChildren:()=>import('./administration/administration.module').then(m=>m.AdministrationModule)}
   ,{path:'**' , component:NotFoundComponent}  
   
 ];
@@ -37,8 +36,8 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes,
     { 
-      onSameUrlNavigation: 'reload'// ,
-      //enableTracing: false
+      onSameUrlNavigation: 'reload' ,
+      enableTracing: false
   })],
   exports: [RouterModule] 
 })

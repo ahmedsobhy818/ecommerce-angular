@@ -1,19 +1,17 @@
-<p>administrator works!</p>
+<!--<div *ngIf="Logged?.UserType=='Admin';else error">-->
+    <div class="outlet" *ngIf="Logged!=null;else error">    
+<!--<div>
+    <h2>{{Logged.Name}}</h2>
+    <h2>{{Logged.UserName}}</h2>
+    <h2>{{Logged.UserType}}</h2>
+    <h2>{{Logged.State}}</h2>
+</div>--> 
+        <router-outlet></router-outlet>
 
-<ul>
-    <li>
-      <a [routerLink]="'.'" routerLinkActive="active"> Dashboard </a>
-    </li>
-    <li>  
-      <a [routerLink]="'Admin'" routerLinkActive="active"> Admin </a>
-    </li>
-    <li>
-      <a [routerLink]="'Vendor'" routerLinkActive="active"> Vendor </a>
-    </li>
-    <li>
-      <a [routerLink]="'Operator'" routerLinkActive="active"> Operator </a>
-    </li>
-  </ul>
-************************** <br> 
-    <router-outlet></router-outlet>
-    <br>**************************
+    <div style="clear: both;"></div>
+</div> 
+<ng-template #error >
+    <div class="alert alert-danger">Please log in</div>
+</ng-template>
+
+    <app-footer-admin></app-footer-admin>    

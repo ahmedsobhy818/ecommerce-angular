@@ -7,13 +7,15 @@ export interface Settings{ //interface of this State , we used it in "StoreInter
     
         StoreName:string,
         ShippingPercent:number,
-        TaxPercent:number
+        TaxPercent:number,
+        StorePercent:number
   }
 
 let initialState:Settings={// initail State (Data) to manage
 StoreName:'',
 ShippingPercent:0,
-TaxPercent:0    
+TaxPercent:0,
+StorePercent:0    
 }
 
 export function settingsReducer(state:Settings=initialState,action:CustomAction){ //the reducer function to manage this state

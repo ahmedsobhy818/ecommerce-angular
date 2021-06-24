@@ -72,4 +72,15 @@ doAutocompletePrdoducts(obj,SpinnerVarName) {
  
   return this.http.post(environment.AppName + '/api/queries/Search.php'.replace('.php',environment.isDotNetCore?'':'.php') ,environment.isDotNetCore?obj:JSON.stringify(obj),{headers:headers})          
 }
+setSettings(obj,SpinnerVarName){
+  let headers = new HttpHeaders(); 
+  //dont use large blue spinner 
+  //, we will use our custom small spinner in this request 
+  //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+  headers = headers.set('CustomSpinner',SpinnerVarName);
+  headers = headers.set('Authorization', obj.token);
+  
+  return this.http.post(environment.AppName + '/api/queries/SetSettings.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
+ 
+}
 }

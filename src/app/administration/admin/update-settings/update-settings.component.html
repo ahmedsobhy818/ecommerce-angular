@@ -1,0 +1,42 @@
+<div class="alert alert-success" *ngIf="success">Data Saved </div>
+<div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+<form #f=ngForm>
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Store Name</mat-label>
+  <input matInput ngModel [(ngModel)]="StoreName"  name="StoreName" #storeName=ngModel required >
+</mat-form-field>
+<div *ngIf="storeName.touched ">
+    <div *ngIf="storeName.errors?.required">StoreName is a required field!</div>
+</div>
+
+
+<mat-form-field class="example-full-width " appearance="fill">
+  <mat-label>Tax %</mat-label>
+  <input matInput type="number" min="0" max="100" ngModel [(ngModel)]="TaxPercent"  name="taxPercent" #taxPercent=ngModel required >
+</mat-form-field>
+<div *ngIf="taxPercent.touched ">
+    <div *ngIf="taxPercent.errors?.required">Tax Percent is a required field!</div>
+</div>
+
+<mat-form-field class="example-full-width " appearance="fill">
+  <mat-label>Shipping %</mat-label>
+  <input matInput type="number" min="0" max="100" ngModel [(ngModel)]="ShippingPercent"  name="shippingPercent" #shippingPercent=ngModel required >
+</mat-form-field>
+<div *ngIf="shippingPercent.touched ">
+    <div *ngIf="shippingPercent.errors?.required">Shipping Percent is a required field!</div>
+</div>
+
+<mat-form-field class="example-full-width " appearance="fill">
+  <mat-label>Store %</mat-label>
+  <input matInput type="number" min="0" max="100" ngModel [(ngModel)]="StorePercent"  name="StorePercent" #storePercent=ngModel required >
+</mat-form-field>
+<div *ngIf="storePercent.touched ">
+    <div *ngIf="storePercent.errors?.required">Store Percent is a required field!</div>
+</div>
+
+
+<button mat-button style="margin: 50px auto;width: 100px;"   mat-raised-button color="primary"   (click)="Send()" [disabled]="showSpinner || f.invalid">
+  Save
+  <mat-spinner id="spinner"  *ngIf="showSpinner" [diameter]="25" ></mat-spinner>
+</button>
+</form>

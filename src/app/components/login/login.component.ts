@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AccountService } from 'src/app/services/account.service';
+import { SignalrHubServiceForUser } from 'src/app/services/HubsServices/signalr-hub-service.service';
 import { LoadingService } from 'src/app/services/loading-service.service';
 import { LoginAction } from 'src/app/Store/actions/logged.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(private service:AccountService,
               private store:Store<StoreInterface>,
               private loadingService:LoadingService,
-              public dialogRef: MatDialogRef<LoginComponent>) {
+              public dialogRef: MatDialogRef<LoginComponent>
+              ,private SignalRForUser:SignalrHubServiceForUser) {
                 store.select(loggedSelector).subscribe((data)=>{
                   this.isLogged= data!=null
                   if(this.isLogged){
@@ -55,7 +57,6 @@ export class LoginComponent implements OnInit {
          this.ShowMessage=false;
          this.service.doLogin(obj,"submitSpinner").subscribe((data)=>{
               let Logged=data['Data']
-              //Logged.jwt=data['jwt']
               Logged.token=data['token']
               this.store.dispatch(new LoginAction(Logged))  //the component dispatchs an action to the reducer  
 

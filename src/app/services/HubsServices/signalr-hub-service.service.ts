@@ -4,6 +4,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@micros
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LogoutAction } from 'src/app/Store/actions/logged.action';
+import { LoadSettingsAction } from 'src/app/Store/actions/settings.action';
 import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
 import { StoreInterface } from 'src/app/Store/store';
 import { environment } from 'src/environments/environment';
@@ -40,6 +41,10 @@ constructor(private store:Store<StoreInterface>) {
         console.log("******* did log in *******")  
         this.lastLoggedID=data.ID
          this.initiateSignalrConnection()//start the connection with new token
+         .then(()=>{
+          this.JoinGroup("SR-" + data.UserType)
+          this.store.dispatch(new LoadSettingsAction())
+         })
       }
 
     })
@@ -132,6 +137,13 @@ constructor(private store:Store<StoreInterface>) {
     });
   }
 
+  public LogoutCustomersAndVendors(){//log out all customeres,vendors after settings schanged
+    this.connection?.invoke("ForceLogOutCustomersAndVendors")
+    console.log('log out all after settings changed')
+  }
+  public JoinGroup(name){
+    this.connection?.invoke("JoinGroup",name)
+  }
   DecreseCounter(){
     this.hubDecrementNotify.next(true)
   }
