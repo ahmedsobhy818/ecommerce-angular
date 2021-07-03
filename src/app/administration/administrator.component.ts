@@ -13,13 +13,8 @@ import { StoreInterface } from '../Store/store';
   styleUrls: ['./administrator.component.css']
 })
 export class AdministratorComponent implements OnInit {
-  snackBarRef :MatSnackBarRef<any> =null
   Logged
-  constructor(private signalRService:SignalrGeneralHubService,
-    private _snackBar:MatSnackBar,
-    private router:Router,
-    private store:Store<StoreInterface>
-    ) 
+  constructor( private store:Store<StoreInterface>  ) 
     {
       store.select(loggedSelector).subscribe(data=>{
         this.Logged=data
@@ -28,33 +23,6 @@ export class AdministratorComponent implements OnInit {
    
   
    ngOnInit(): void {
-    this.signalRService.hubConnectionOff.subscribe(data=>{
-      if(data)
-       {
-        if(this.snackBarRef==null)
-         this.snackBarRef=  this._snackBar.open("Connection OFF")
-        
-         
-    }
-      else
-       {
-         
-         if(this.snackBarRef!=null)
-          {
-            this.snackBarRef.dismiss();
-            this.snackBarRef=null;
-            
-            setTimeout(() => {
-               //to reload
-               this.router.routeReuseStrategy.shouldReuseRoute = function () {
-                return false;
-              };
-              this.router.navigateByUrl(this.router.url)
-            }, 2000);
-          }  
-          
-  }
-    })
   }
 
 }

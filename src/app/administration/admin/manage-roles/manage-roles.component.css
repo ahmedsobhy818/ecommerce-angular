@@ -1,0 +1,27 @@
+.container{
+    margin :50px auto
+}
+.btnAdd , .role{
+    margin: 10px auto;
+}
+
+.header {
+    background-color: darkcyan;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+.details{
+    min-height: 100px;
+    border: 1px solid;
+padding: 10px;    
+}
+.user{
+background-color: white;
+color: darkcyan;
+font-size: 25px;
+margin: 10px auto;
+}
+img.dimmed{
+    opacity: 0.5;
+}

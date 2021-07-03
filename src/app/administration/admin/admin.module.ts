@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SettingsEeffect } from 'src/app/Store/effects/settings.effect';
 import { reducers } from 'src/app/Store/store';
+import { ExcludeIDsPipe } from 'src/app/pipes/exclude-ids.pipe';
   
 
 @NgModule({
@@ -33,6 +34,7 @@ import { reducers } from 'src/app/Store/store';
      ManageOtherAdminsComponent,
      ManageCategoriesComponent//,
      //FooterComponent
+     ,ExcludeIDsPipe
     ],
   imports: [
     CommonModule,

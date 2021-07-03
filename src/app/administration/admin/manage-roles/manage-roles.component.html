@@ -1,1 +1,46 @@
-<p>manage-roles works!</p>
+<div class="container">
+   <div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+
+   <button class="btn btn-primary btnAdd" (click)="doAdd()">Add New Role</button>
+<div *ngFor="let role of roles"   id="{{'role-' + role.RoleId}}" class="role">
+   <div class=header (click)="openRole(role.RoleId)"> 
+      {{role.RoleNormalizedName}} - {{role.Users.length}} Users  
+      <span style="float: right" *ngIf="!role.Readonly">
+<button class="btn btn-success" (click)="EditRole(role)">Edit</button>
+<button class="btn btn-danger" (click)="DeleteRole(role)">Delete</button>
+      </span>
+
+   </div>
+<div *ngIf="CurrentRole==role.RoleId" class="details">
+   <div *ngIf="!role.Readonly" class="row">
+     <span class="col-sm-2"> Add Operator to this role :</span>
+      <select class="col-sm-3" [(ngModel)]="role.SelectedOperator" > 
+         <option *ngFor="let op of operators|excludeIDs:role.Users:'Id':'TheUserId'" [value]="op.Id">{{op.Name}}</option>
+      </select>  
+      <button class="btn btn-success col-sm-2" (click)="addUserToRole(role)">Add</button>
+   </div>
+   <div *ngFor="let user of role.Users"  class="user">
+    <div class="col-sm-1" style="display: inline-block;">
+       <div> <img [src]="getimg(user.Photo,user.Gender)" [ngClass]="{dimmed: !user.State}"  style="height: 100%; width: 100%;"></div>
+    </div>
+    <div class="col-sm-3" style="display: inline-block;">{{user.Name}}</div>
+    <div class="col-sm-3" style="display: inline-block;">{{user.Email}}</div>
+    <div class="col-sm-3" style="display: inline-block;">{{user.CreatedAt|date:'short'}}</div>
+</div>
+</div>
+</div>
+<div class="role" *ngIf="newRole">
+   <div class=header style="text-align: center;">*********** New Role *********** </div>
+   <div class="user">
+      <form #f=ngForm>
+      <div class="col-sm-2" style="display: inline-block;">Normalized Name</div>
+      <div class="col-sm-4" style="display: inline-block;"><input name="name" #name required ngModel></div>
+      <div class="col-sm-4" style="display: inline-block;">
+         <button class="btn btn-success" (click)="addNew(f)" [disabled]=" f.invalid" >Save</button>
+         <button class="btn btn-danger" (click)="doCancel()">Cancel</button>
+      </div>
+      
+   </form>
+   </div>
+</div>
+</div>

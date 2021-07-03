@@ -9,11 +9,13 @@ import { MyLogComponent } from './components/my-log/my-log.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { ManageVendorsComponent } from './components/manage-vendors/manage-vendors.component';
+import { ExcludeIDsPipe } from '../pipes/exclude-ids.pipe';
 
 
 @NgModule({
   declarations: [
     AdministratorComponent,FooterComponent, ChangePasswordComponent, MyLogComponent, ManageVendorsComponent
+    
   ],
   imports: [    
     CommonModule,       

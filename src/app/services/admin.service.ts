@@ -41,5 +41,31 @@ export class AdminService {
     headers = headers.set('Authorization', token);
     return  this.http.get(environment.AppName + '/api/queries/GetVendors.php'.replace('.php',environment.isDotNetCore?'':'.php') , { headers:headers})
   }
-  
+  GetRoles(token){
+    
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.get(environment.AppName + '/api/queries/GetRoles.php'.replace('.php',environment.isDotNetCore?'':'.php') , { headers:headers})
+  }
+  AddRole(token,name){
+    console.log(name)
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.post(environment.AppName + '/api/queries/NewRole.php'.replace('.php',environment.isDotNetCore?'':'.php'),{name:name} , { headers:headers})
+  }
+  addUserToRole(token,userId,roleId){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.post(environment.AppName + '/api/queries/AddUserToRole.php'.replace('.php',environment.isDotNetCore?'':'.php'),{userId,roleId} , { headers:headers})
+  }
+  deleteRole(token,roleId){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.post(environment.AppName + '/api/queries/DeleteRole.php'.replace('.php',environment.isDotNetCore?'':'.php'),{roleId} , { headers:headers})
+  }
+  editRole(token,roleId,name){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.post(environment.AppName + '/api/queries/EditRole.php'.replace('.php',environment.isDotNetCore?'':'.php'),{roleId,name} , { headers:headers})
+  }
 }
