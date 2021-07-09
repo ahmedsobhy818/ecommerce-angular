@@ -68,4 +68,42 @@ export class AdminService {
     headers = headers.set('Authorization', token);
     return  this.http.post(environment.AppName + '/api/queries/EditRole.php'.replace('.php',environment.isDotNetCore?'':'.php'),{roleId,name} , { headers:headers})
   }
+
+  GetCatTree(token){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return  this.http.get(environment.AppName + '/api/queries/GetTree.php'.replace('.php',environment.isDotNetCore?'':'.php') , { headers:headers})
+  }
+  DeActivateCategory(Id,token){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    let obj={CatID:Id,State:"false"}
+    return  this.http.post(environment.AppName + '/api/queries/ChangeStateOfCategory.php'.replace('.php',environment.isDotNetCore?'':'.php'),environment.isDotNetCore?obj:JSON.stringify(obj) , { headers:headers})    
+  }
+  ActivateCategory(Id,token){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    let obj={CatID:Id,State:"true"}
+    return  this.http.post(environment.AppName + '/api/queries/ChangeStateOfCategory.php'.replace('.php',environment.isDotNetCore?'':'.php'),environment.isDotNetCore?obj:JSON.stringify(obj) , { headers:headers})    
+  }
+
+  uploadPhoto(obj,SpinnerVarName,token){  
+    let headers = new HttpHeaders(); 
+    //dont use large blue spinner 
+    //, we will use our custom small spinner in this request 
+    //our custom spinner is shown/hidden using component variable (SpinnerVarName)
+    headers = headers.set('CustomSpinner',SpinnerVarName);
+    headers = headers.set('Authorization', token);
+    return this.http.post(environment.AppName + '/api/queries/UploadCategoryPhoto.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), {reportProgress: true, observe: 'events', headers:headers})
+  }
+  newCategory(obj,token){  
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return this.http.post(environment.AppName + '/api/queries/NewCategory.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
+  }
+  editCategory(obj,token){  
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return this.http.post(environment.AppName + '/api/queries/EditCategory.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
+  }
 }

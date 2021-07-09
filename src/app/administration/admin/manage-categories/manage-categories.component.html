@@ -1,1 +1,14 @@
-<p>manage-categories works!</p>
+
+<div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+<button class="btn btn-primary" (click)="addNew(null)" >Add Category</button>
+<div *ngFor="let item of Tree" class="cat" [ngStyle]="{'margin-left': item.Level*50 + 'px' , 'margin-top':item.Id==item.BaseID?'70px':'20px'}" >
+<img [src]="getimg(item.Image)" class="img" [ngClass]="{dimmed: !item.State}">
+    {{item.Chain}} - {{item.nTotalProducts}} Products
+<div style="float:right">  
+    <button class="btn btn-primary" (click)="addNew(item)" [disabled]="!item.State" >Add Sub Category</button>
+    <button class="btn btn-primary" (click)="edit(item)" [disabled]="!item.State" >Edit Category</button>
+<button class="btn btn-success" (click)="activate(item)" [disabled]="item.State" >Activate</button>
+<button class="btn btn-danger" (click)="deActivate(item)" [disabled]="!item.State">DeActivate</button>
+</div>
+</div> 
+

@@ -1,0 +1,40 @@
+<form #f=ngForm>
+
+<input name="name" #name required [(ngModel)]="data.Item.Name" placeholder="Name" class="form-control" >
+<input name="ar_name" #ar_name required [(ngModel)]="data.Item.ArabicName" placeholder="Arabic Name" class="form-control">
+<input name="desc" #desc required [(ngModel)]="data.Item.Description" placeholder="Description" class="form-control" >
+
+
+
+  <div class="form-group">
+    <label  class="col-lg-2 control-label">Photo</label>
+    <div class="col-lg-10">
+        <input type="file" required (change)="uploadFile(photo.files)"  name="Photo" #photo  class="filestyle" data-classbutton="btn btn-default btn-lg" data-input="false" id="filestyle-0" tabindex="-1" style="position: fixed; left: -500px;">
+        <div class="bootstrap-filestyle input-group"><input type="text" class="form-control " disabled="" placeholder="Choose file"> <span class="input-group-btn" tabindex="0">  <label for="filestyle-0" class="btn btn-default btn-lg">    <mat-icon style="font-size: 50px;color:'#000'">drive_folder_upload</mat-icon>   </label></span></div>
+    </div>   
+    <div *ngIf="photo.touched ">
+        <div *ngIf="photo.errors?.required">Photo is a required field!</div>
+   </div>
+   <div class="col-md-4">
+    <span class="upload" *ngIf="progress >0  && progress<100 && uploadError==''">
+       {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message &&  uploadError==''">
+      {{message}}
+    </span>
+    <!--<mat-progress-bar *ngIf="progress!=0 && progress !=100" mode="determinate" [value]="progress"></mat-progress-bar>-->
+    <mat-progress-bar *ngIf="showProgressBar" mode="determinate" [value]="progress"></mat-progress-bar>
+
+<div *ngIf="uploadError!=''" class="alert alert-danger">{{uploadError}}</div>
+  </div> 
+
+</div>
+
+<img style="height: 100px; width: 100px;" [src]="getImage()">
+
+<div mat-dialog-actions>
+   
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial [disabled]=" f.invalid">Save</button>
+    <button mat-button (click)="onNoClick()">Cancel </button>
+  </div>
+  </form>

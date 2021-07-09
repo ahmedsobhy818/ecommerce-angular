@@ -21,6 +21,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { SettingsEeffect } from 'src/app/Store/effects/settings.effect';
 import { reducers } from 'src/app/Store/store';
 import { ExcludeIDsPipe } from 'src/app/pipes/exclude-ids.pipe';
+import { NewCatComponent } from './new-cat/new-cat.component';
   
 
 @NgModule({
@@ -34,7 +35,7 @@ import { ExcludeIDsPipe } from 'src/app/pipes/exclude-ids.pipe';
      ManageOtherAdminsComponent,
      ManageCategoriesComponent//,
      //FooterComponent
-     ,ExcludeIDsPipe
+     ,ExcludeIDsPipe, NewCatComponent
     ],
   imports: [
     CommonModule,

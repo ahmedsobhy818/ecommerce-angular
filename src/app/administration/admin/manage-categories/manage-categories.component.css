@@ -1,0 +1,17 @@
+.cat{
+    background-color:#000;
+    
+    padding-left: 10px;
+    color: #fff;
+    height: 150px;
+    line-height: 150px;
+    font-size: 30px;
+    
+}
+.img{
+    height: 100px;
+    width: 100px;
+}
+img.dimmed{
+    opacity: 0.25;
+}
