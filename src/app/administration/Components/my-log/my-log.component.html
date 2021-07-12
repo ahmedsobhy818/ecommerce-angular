@@ -12,7 +12,11 @@
 <td>{{item.CreatedAt|date:'short'}}</td>
 
 <td>{{item.Description}}</td>
-<td>{{item.Payload}}</td>
+<td><a *ngIf="item.ItemType==0 ||item.ItemType==1||item.ItemType==4||item.ItemType==6||item.ItemType==7||item.ItemType==9;else nolink" 
+     [routerLink]="['/administration/AccountLog', item.Payload]"
+ > {{item.Payload}}</a>
+<ng-template #nolink >{{item.Payload}}</ng-template>
+</td>
 </tr>
 </tbody>
 </table>

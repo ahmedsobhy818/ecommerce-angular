@@ -1,5 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AccountService } from 'src/app/services/account.service';
 import { LoadingService } from 'src/app/services/loading-service.service';
@@ -27,11 +28,13 @@ export class ProfileComponent implements OnInit {
   Photo
   showSpinner=false
   //@Output() public onUploadFinished = new EventEmitter();
-   
+  AdminModule=false
   constructor(private service:AccountService,
     private loadingService:LoadingService,
-    private store:Store<StoreInterface>
+    private store:Store<StoreInterface>,
+    private router:Router
     ) {
+      this.AdminModule= router.url.startsWith("/administration/Profile")
 
      this.store.select(loggedSelector).subscribe(data=>{
        this.Logged=data

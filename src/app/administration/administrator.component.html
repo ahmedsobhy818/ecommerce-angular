@@ -5,13 +5,36 @@
     <h2>{{Logged.UserName}}</h2>
     <h2>{{Logged.UserType}}</h2>
     <h2>{{Logged.State}}</h2>
-</div>--> 
-        <router-outlet></router-outlet>
+</div>-->    
+<div style="width: 100%;background-color: rgb(231, 222, 222);overflow: hidden;padding: 20px;">
+    <div style="float: left;width: 15%;">
+    <img [src]="getimg(Logged.PhotoURL,Logged.Gender)" style="height: 100px;width: 100px">
+    </div>
+    <div style="float: left;line-height: 100px;">
+    <span>{{Logged.Name}}</span> -
+    <span>{{Logged.UserName}}</span> -
+    <span>({{Logged.UserType}})</span> -
+    
+    <span *ngIf="!Logged.State" style="color: red;"> Your account is not active</span>
+</div>
+<div>
+    <button  mat-icon-button class="example-icon favorite-icon" matBadge="{{nNewNotifications}}" matBadgeColor="primary" aria-label="Example icon-button with a menu" (click)="gotoNotifications()">
+        <mat-icon style="font-size: 50px;color:'#fff'">notifications_active</mat-icon>
+        </button> 
+</div>
+<div style="float: right;">
+<button (click)="dologout()">Logout</button>
+</div>
+</div>
+<router-outlet ></router-outlet> 
 
-    <div style="clear: both;"></div>
+<div style="clear: both;"></div>
 </div> 
 <ng-template #error >
-    <div class="alert alert-danger">Please log in</div>
+    <div class="alert alert-danger">
+        
+        please <a routerLink="." [queryParams]="{action:'login'}" >log in</a>
+    </div>
 </ng-template>
 
     <app-footer-admin></app-footer-admin>    

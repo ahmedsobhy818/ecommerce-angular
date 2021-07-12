@@ -10,11 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { ManageVendorsComponent } from './components/manage-vendors/manage-vendors.component';
 import { ExcludeIDsPipe } from '../pipes/exclude-ids.pipe';
+import { AccountLogComponent } from './components/account-log/account-log.component';
 
 
 @NgModule({
   declarations: [
-    AdministratorComponent,FooterComponent, ChangePasswordComponent, MyLogComponent, ManageVendorsComponent
+    AdministratorComponent,FooterComponent, ChangePasswordComponent, MyLogComponent, ManageVendorsComponent, AccountLogComponent
     
   ],
   imports: [    

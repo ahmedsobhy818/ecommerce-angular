@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header *ngIf="!AdminModule"></app-header>
 <div *ngIf="Logged==null">
   You have to <a routerLink="." [queryParams]="{action:'login'}" >login</a> to see your orders 
 </div>
@@ -66,4 +66,4 @@
 </form>
 
 </div>
-<app-footer></app-footer>
+<app-footer  *ngIf="!AdminModule"></app-footer>

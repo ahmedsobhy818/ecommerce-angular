@@ -18,11 +18,12 @@ isLogged
 photo
 NewNotifications
 OldNotifications
+AdminModule=false
   constructor(private store:Store<StoreInterface>,
     private Service:AccountService,
     private SignalRForUser:SignalrHubServiceForUser,
     private router:Router) { 
-
+    this.AdminModule= router.url.startsWith("/administration/Notifications")
     store.select(loggedSelector).subscribe(data=>{
       this.Logged=data
       this.isLogged= this.Logged!=null
@@ -33,7 +34,8 @@ OldNotifications
             "ID":this.Logged.ID,   
             "token":this.Logged.token
           }).subscribe(data=>{
-          this.photo=data["User"]["ProfilePhoto"]
+            console.log(data["User"])
+          this.photo=this.getimg( data["User"]["ProfilePhoto"],data["User"]["Gender"])
           this.NewNotifications=data["Notifications"].filter(n=>n.PeriodGroupString=='NEW')
           this.OldNotifications=data["Notifications"].filter(n=>n.PeriodGroupString=='OLD')
           
@@ -62,5 +64,10 @@ OldNotifications
     //return "['/" + item.notification.ActionLink + "']"
     return  "../../" + item.notification.ActionLink 
   }
-
+  getimg(photo,Gender){
+    let image=photo
+    if(image=="")
+      image=Gender + ".png"
+    return environment.AppName + "/images/users/" + image
+  }
 }

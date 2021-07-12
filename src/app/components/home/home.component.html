@@ -44,8 +44,8 @@
     <mat-label>Category</mat-label>
     <mat-select [(ngModel)]="CatID" (selectionChange)="doSelectCat($event)">
       <mat-option  *ngFor="let cat of AllCats" [value]="cat.ID" >
-        {{cat.Name}}
-      </mat-option>
+        {{cat.ShownName}}  
+      </mat-option>      
       
     </mat-select>
   </mat-form-field>

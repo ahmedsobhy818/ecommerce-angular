@@ -1,5 +1,5 @@
 
-<app-header></app-header>
+<app-header *ngIf="!AdminModule"></app-header>
 <div *ngIf="!isLogged" class="alert alert-danger">
     You are not authorized to see notifications page
  </div>
@@ -85,4 +85,4 @@
     </div>
 </div>
 
- <app-footer></app-footer>
+ <app-footer *ngIf="!AdminModule"></app-footer>

@@ -183,8 +183,8 @@ getProducts(term)
   },"showSpinner")
 }
 doSelectCat(e){
-  //console.log(id)
- this.CatName= ( e.source.selected as MatOption).viewValue
+  console.log(e)
+ this.CatName= ( e.source.selected as MatOption).viewValue.replace('--- ','').replace('---','')
 //alert(s)
  //$location.path(settings.BaseUrl + '/All/' + dataScope.OrderBy + '/' + ui.item.label.split('-')[0] + '/' + dataScope.PageSize + '/1');
  //

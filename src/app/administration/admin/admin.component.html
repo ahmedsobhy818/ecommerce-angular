@@ -10,11 +10,16 @@
     <a [routerLink]="'Categories'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Categories </a>
     <a [routerLink]="'../Log'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  My Log </a>
     <a [routerLink]="'../Password'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Change Password </a>
+    <a [routerLink]="'../Notifications'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Notifications </a>
+    <a [routerLink]="'../Profile'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Profile </a>
   </div>
   
   <div class="content" >
-    <h2>Admin Module</h2>
-    <router-outlet></router-outlet>
+    <h2>Admin Module</h2> 
+    <router-outlet *ngIf="Logged.State;else NotActive"></router-outlet>
+    <ng-template #NotActive>
+     <div class="alert alert-danger">Your account is not active , please contact super administrator</div>
+    </ng-template>
   </div>
 </div>
   <ng-template  #error>

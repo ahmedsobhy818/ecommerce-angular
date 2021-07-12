@@ -106,4 +106,10 @@ export class AdminService {
     headers = headers.set('Authorization', token);
     return this.http.post(environment.AppName + '/api/queries/EditCategory.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
   }
+
+  GetAccountLog(token,obj){
+    let headers = new HttpHeaders(); 
+    headers = headers.set('Authorization', token);
+    return this.http.post(environment.AppName + '/api/queries/AccountLog.php'.replace('.php',environment.isDotNetCore?'':'.php') ,obj,  { headers:headers})
+  }
 }
