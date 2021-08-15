@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { loggedSelector } from 'src/app/Store/reducers/logged.reducer';
+import { StoreInterface } from 'src/app/Store/store';
 
 @Component({
   selector: 'app-vendor',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VendorComponent implements OnInit {
 
-  constructor() { }
+  Logged
+  constructor(private store:Store<StoreInterface>) { 
+    store.select(loggedSelector).subscribe(data=>{
+      this.Logged=data
+    })
+  }
 
   ngOnInit(): void {
   }
 
 }
+
+
+

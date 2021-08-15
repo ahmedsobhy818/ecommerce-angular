@@ -1,0 +1,133 @@
+
+<div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+
+<button class="btn btn-primary" (click)="addNew()" >Add Product</button>
+<h2>Active Products</h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>NSold</th>
+        <th>Date</th>
+        <th>Rating</th>
+        <th>Category</th>
+        <th>State</th>
+        <td></td>
+        <td></td>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let product of ActiveProducts;index as i">
+         <td>
+            <img style="height: 100px;width:100px" [src]='getimg(product)'>
+            </td>
+            <td>
+                {{product.Name}}
+            </td>
+            <td>{{product.Unit}}</td>
+            <td>{{product.Price}}</td>
+            <td>{{product.Qty}}</td>
+            <td>{{product.NSold}}</td>
+            <td>{{product.AddedAt|date:'short'}}</td>
+            <td>{{product.AvgRate}}</td>
+            <td>{{product.Category}}</td>
+            <td>{{product.State==1?'Active':'Stopped'}}</td>
+            <td>
+                <button class="btn btn-success" *ngIf="product.State!=1" (click)="doStartStop(product,1)">Start</button>
+                <button class="btn btn-danger" *ngIf="product.State==1" (click)="doStartStop(product,0)">Stop</button>
+            </td>
+            <td>
+                <button class="btn btn-primary" (click)="updateProduct(ActiveProducts,i)">Update</button>
+            </td>
+    </tr>
+</tbody>
+</table>
+
+<h2>Pending Products</h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>NSold</th>
+        <th>Date</th>
+        <th>Last Modified</th>
+        <th>Rating</th>
+        <th>Category</th>
+        <td></td>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let product of PendingProducts;index as i">
+         <td>
+            <img style="height: 100px;width:100px" [src]='getimg(product)'>
+            </td>
+            <td>
+                {{product.Name}}
+            </td>
+            <td>{{product.Unit}}</td>
+            <td>{{product.Price}}</td>
+            <td>{{product.Qty}}</td>
+            <td>{{product.NSold}}</td>
+            <td>{{product.AddedAt|date:'short'}}</td>
+            <td>{{product.LastModified|date:'short'}}</td>
+            <td>{{product.AvgRate}}</td>
+            <td>{{product.Category}}</td>
+            <td>
+                <!--<button class="btn btn-primary">Update</button>-->
+                <button class="btn btn-primary" (click)="updateProduct(PendingProducts,i)">Update</button>
+            </td>
+    </tr>
+</tbody>
+</table>
+
+<h2>Suspended Products</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>NSold</th>
+        <th>Date</th>
+        <th>Last Modified</th>
+        <th>Rating</th>
+        <th>Category</th>
+        <th>Notes</th>
+        <td></td>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let product of SuspendedProducts;index as i">
+         <td>
+            <img style="height: 100px;width:100px" [src]='getimg(product)'>
+            </td>
+            <td>
+                {{product.Name}}
+            </td>
+            <td>{{product.Unit}}</td>
+            <td>{{product.Price}}</td>
+            <td>{{product.Qty}}</td>
+            <td>{{product.NSold}}</td>
+            <td>{{product.AddedAt|date:'short'}}</td>
+            <td>{{product.LastModified|date:'short'}}</td>
+            <td>{{product.AvgRate}}</td>
+            <td>{{product.Category}}</td>
+            <td>{{product.AdminNotes}}</td>
+            <td>
+                <!--<button class="btn btn-primary">Update</button>-->
+                <button class="btn btn-primary" (click)="updateProduct(SuspendedProducts,i)">Update</button>
+            </td>
+    </tr>
+</tbody>
+</table>

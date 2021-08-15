@@ -1,1 +1,27 @@
-<p>vendor works!</p>
+<div *ngIf="Logged?.UserType=='Vendor';else error">
+    <div class="sidebar">
+    
+        <a [routerLink]="'Dashboard'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Dashboard </a>
+        <a [routerLink]="'Products'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Manage Products </a>
+        <a [routerLink]="'Stocks'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Manage Stocks </a>
+        <a [routerLink]="'../Log'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  My Log </a>
+        <a [routerLink]="'../Password'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Change Password </a>
+        <a [routerLink]="'../Notifications'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Notifications </a>
+        <a [routerLink]="'../Profile'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">  Profile </a>
+      </div>
+      
+      <div class="content" >
+        <h2>Vendor Module</h2> 
+        <router-outlet *ngIf="Logged.State;else NotActive"></router-outlet>
+        <ng-template #NotActive>
+         <div class="alert alert-danger">Your account is not active , please contact  administrators</div>
+        </ng-template>
+      </div>
+    </div>
+      <ng-template  #error>
+        <div class="alert alert-danger">You are not an vendor</div>
+      </ng-template>
+    
+    
+    
+    

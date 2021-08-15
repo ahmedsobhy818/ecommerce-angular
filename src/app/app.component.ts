@@ -62,6 +62,7 @@ constructor(private store:Store<StoreInterface> ,
 
   this.route.queryParamMap.subscribe(params=>{
     let action=params.get('action')
+    //alert(action) 
     console.log(`action parameter: ${action}`)
     if(action=="login" || action=="signup"){
       let dialogRef 

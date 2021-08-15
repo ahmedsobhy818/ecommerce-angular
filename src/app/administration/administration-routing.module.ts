@@ -15,7 +15,8 @@ import { VendorComponent } from './vendor/vendor.component';
 const routes: Routes = [
   { path:'' , component:AdministratorComponent ,children:[
     {path:'Admin' ,  loadChildren:()=>import('./admin/admin.module').then(m=>m.ADMINModule)},
-    {path: 'Vendor' , component:VendorComponent},
+    {path:'Vendor' ,  loadChildren:()=>import('./vendor/vendor.module').then(m=>m.VENDORModule)},
+    //{path: 'Vendor' , component:VendorComponent},
     {path:'Operator' , component:OperatorComponent},
     {path:'Log' , component:MyLogComponent},
     {path:'Password' , component:ChangePasswordComponent},
