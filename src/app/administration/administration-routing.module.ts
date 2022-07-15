@@ -17,7 +17,7 @@ const routes: Routes = [
     {path:'Admin' ,  loadChildren:()=>import('./admin/admin.module').then(m=>m.ADMINModule)},
     {path:'Vendor' ,  loadChildren:()=>import('./vendor/vendor.module').then(m=>m.VENDORModule)},
     //{path: 'Vendor' , component:VendorComponent},
-    {path:'Operator' , component:OperatorComponent},
+    {path:'Operator' , loadChildren:()=>import('./operator/operator.module').then(m=>m.OPERATORModule)},
     {path:'Log' , component:MyLogComponent},
     {path:'Password' , component:ChangePasswordComponent},
     {path: 'ManageVendors' , component:ManageVendorsComponent},

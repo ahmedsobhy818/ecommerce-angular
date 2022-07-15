@@ -1,0 +1,47 @@
+<div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
+
+<h2>Pending Products</h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Vendor</th>
+        <td></td>
+        <td></td>
+    </tr>
+</thead>
+<tbody>
+    <tr *ngFor="let product of products;index as i">
+         <td>
+            <img style="height: 100px;width:100px" [src]='getimg(product)'>
+            </td>
+            <td>
+                {{product.Name}}
+            </td>
+            <td>{{product.Unit}}</td>
+            <td>{{product.Price}}</td>
+            <td>{{product.AddedAt|date:'short'}}</td>
+            <td>{{product.Category}}</td>
+            <td>{{product.Vendor}}</td>
+            <td>
+                <button class="btn btn-success"  (click)="doApprove(product,i)" [disabled]='approveSpinner  && this.RowIndex==i'>
+                    
+                        <mat-spinner id="spinner1" *ngIf='approveSpinner && this.RowIndex==i' [diameter]="25" ></mat-spinner>  
+                    Approve
+                </button>
+                
+            </td>
+            <td>
+                <button class="btn btn-danger"  (click)="doSuspend(product,i)" [disabled]="suspendSpinner && this.RowIndex==i">
+                    <mat-spinner id="spinner2" *ngIf="suspendSpinner  && this.RowIndex==i" [diameter]="25" ></mat-spinner>  
+                    Suspend
+                </button>
+            </td>
+    </tr>
+</tbody>
+</table>

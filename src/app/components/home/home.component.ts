@@ -224,8 +224,8 @@ doSearch(){
     //$scope.PageIndex=x;
     //$scope.show();    
   }
-  getImagePath=function(id){
-    return environment.AppName +  "/images/"+ id+ ".jpg"         
+  getImagePath(product){
+    return environment.AppName +  "/images/products/"+ product.Image        
 }
 showProduct(id:number){
   this.router.navigate(['ProductDetails',id]);   

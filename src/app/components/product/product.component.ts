@@ -114,10 +114,10 @@ this.goToBasicData();
     console.log(url)
     this.router.navigateByUrl(url)
   }
-  getImagePath=function(id){
-    if(id==undefined)
+  getImagePath=function(product){
+    if(product==undefined)
     return '';
-    return environment.AppName +  "/images/"+ id+ ".jpg"         
+    return environment.AppName +  "/images/products/"+ product.Image          
 }
 GetCmtImg=function(cmt){
   return environment.AppName + "/images/users/"+ cmt.Gender + ".png";

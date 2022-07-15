@@ -7,7 +7,7 @@
       <ng-template matTabContent >
     <div *ngIf="TabIndex==0">
         <div class="list-item"  ng-hide="ShowError||ShowComments">
-            <div><img style="height:600px" [src]="getImagePath(productID)"></div>
+            <div><img style="height:600px" [src]="getImagePath(product)"></div>
         <div>
             <div class="arabic">{{product?.ArabicName}}</div>
             <div class="name">{{product?.Name}}</div>
