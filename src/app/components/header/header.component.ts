@@ -112,6 +112,19 @@ constructor(private store:Store<StoreInterface>,
 
      return environment.AppName + "/images/users/" + url
   }
+  GetAdminLink(){
+   switch(this.Logged?.UserType)
+   {
+    case "Admin":return ['/administration/Admin'];break;
+    case "Vendor":return ['/administration/Vendor'];break;
+    case "Operator":return ['/administration/Operator'];break;
+    default:return[];break;
+   }
+    // if(this.Logged.UserType=="Admin")
+     // return ['/Products/Orders'] ;
+    //else
+        return [];
+    }
 /*
   gotoCart(){
   this.router.navigate(['Products','Cart']);   

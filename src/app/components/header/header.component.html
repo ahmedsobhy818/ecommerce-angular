@@ -90,6 +90,12 @@
         <span><a [routerLink]="['/Products/Orders']" >Orders</a></span>
     </button>
     <mat-divider></mat-divider>
+
+    <button mat-menu-item *ngIf="Logged!=null">
+      
+        <span><a [routerLink]="GetAdminLink()" >Administration</a></span>
+    </button>
+    <mat-divider *ngIf="Logged!=null"></mat-divider>
     <button mat-menu-item >
       
         <span><a routerLink="." [queryParams]="{action:'logout'}" >Logout</a></span>
