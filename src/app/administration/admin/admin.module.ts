@@ -20,8 +20,8 @@ import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SettingsEeffect } from 'src/app/Store/effects/settings.effect';
 import { reducers } from 'src/app/Store/store';
-import { ExcludeIDsPipe } from 'src/app/pipes/exclude-ids.pipe';
 import { NewCatComponent } from './new-cat/new-cat.component';
+import { SharedModule } from 'src/app/shared/shared.module';
   
 
 @NgModule({
@@ -35,7 +35,8 @@ import { NewCatComponent } from './new-cat/new-cat.component';
      ManageOtherAdminsComponent,
      ManageCategoriesComponent//,
      //FooterComponent
-     ,ExcludeIDsPipe, NewCatComponent
+     , NewCatComponent
+
     ],
   imports: [
     CommonModule,
@@ -43,7 +44,8 @@ import { NewCatComponent } from './new-cat/new-cat.component';
 
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule/*,//MaterialModule exports material components to app.module
+    MaterialModule,
+    SharedModule/*,//MaterialModule exports material components to app.module
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,

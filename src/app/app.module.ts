@@ -34,7 +34,6 @@ import { NotificationComponent } from './components/notification/notification.co
 import { ProfileComponent } from './components/profile/profile.component';
 import { Service0Service } from './services/service0.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ExcludeIDsPipe } from './pipes/exclude-ids.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { SimpleEditorDialogComponent } from './components/simple-editor-dialog/simple-editor-dialog.component';
 

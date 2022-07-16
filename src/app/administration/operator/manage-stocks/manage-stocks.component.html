@@ -1,1 +1,41 @@
-<p>manage-stocks works!</p>
+
+<div id="divPending">
+    <h2> Pending Stocks</h2>
+    <div class="item" *ngFor="let stock of PendingStocks;index as i">
+      Created By :{{stock.Vendor.user.Email}}<br>
+      Created At :{{stock.CreatedAt}}<br>
+      <button class="btn btn-success" (click)="ApproveStock(stock.Id,i)" [disabled]="ApproveSpinner && this.RowIndex==i">
+        <mat-spinner id="spinner2" *ngIf="ApproveSpinner  && this.RowIndex==i" [diameter]="25" ></mat-spinner>  
+        Receive Stock
+    </button>
+    
+      <div>
+        <table class="table table-borderd">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                
+            </tr>
+            </thead>
+        <tbody>
+        <tr *ngFor="let item of stock.StockItems;index as i">
+            <td>
+                  {{item.Product.Name}} 
+            </td>
+            <td><img style="height: 100px;width:100px" [src]='getimg(item.Product.Image)' ></td>
+            <td>{{item.Product.Description}}</td>
+            <td>{{item.Product.Unit}}</td>
+            <td>{{item.Product.Price}}</td>
+            <td>{{item.Quantity}}</td>
+            
+        </tr>
+    </tbody>
+    </table>
+      </div>
+    </div>
+</div>

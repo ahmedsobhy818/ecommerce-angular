@@ -1,8 +1,123 @@
 <p>manage-my-stocks works!</p>
 <div class="alert alert-danger" *ngIf="error!=null">{{error}}</div>
 
+<select id="select1" (change)="cmbChange($event)" class="col-sm-3 form-control" [(ngModel)]="cmbIndex" > 
+    <option value="0">New Stock</option>
+    <option value="1">Accepted Stocks</option>
+    <option value="2">Pending Stocks</option>
+    
+ </select> 
+
+<div id="divNew" *ngIf="cmbIndex=='0'">
+    <button class="btn btn-primary" (click)="AddStockItem()">New Item</button>
+    <table class="table table-borderd">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Unit</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+        </thead>
+    <tbody>
+    <tr *ngFor="let item of stockItems;index as i">
+        <td>
+              <select (change)="doSelectItem(i,$event)" class="col-sm-3 form-control" [(ngModel)]="item.ProductId" > 
+                <option value=""></option>
+                <option *ngFor="let pr of products|excludeIDs:AllStockItemsExcepetMe(i):'ID':'ProductId'" [value]="pr.ID">{{pr.Name}}</option>
+             </select> 
+        </td>
+        <td><img style="height: 100px;width:100px" [src]='getimg(item.Image)' *ngIf="item.ProductId!=''"></td>
+        <td>{{item.Description}}</td>
+        <td>{{item.Unit}}</td>
+        <td>{{item.Price}}</td>
+        <td><input class="form-control" [(ngModel)]="item.Quantity"></td>
+        <td>
+            <button class="btn btn-danger" (click)="DelStockItem(i)">Delete</button>
+        </td>
+    </tr>
+</tbody>
+</table>
+<button class="btn btn-success" (click)="doSave()">Save</button>
+</div>
 
 
-<div>
-new stock block 
+
+<div id="divActive" *ngIf="cmbIndex=='1'">
+    <h2>My Approved Stocks</h2>
+    <div class="item" *ngFor="let stock of ActiveStocks">
+      Created By :{{stock.Vendor.user.Email}}<br>
+      Created At :{{stock.CreatedAt}}<br>
+      Accepted At  :{{stock.ReceivedAt}}<br>
+      <div>
+        <table class="table table-borderd">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                
+            </tr>
+            </thead>
+        <tbody>
+        <tr *ngFor="let item of stock.StockItems;index as i">
+            <td>
+                  {{item.Product.Name}} 
+            </td>
+            <td><img style="height: 100px;width:100px" [src]='getimg(item.Product.Image)' ></td>
+            <td>{{item.Product.Description}}</td>
+            <td>{{item.Product.Unit}}</td>
+            <td>{{item.Product.Price}}</td>
+            <td>{{item.Quantity}}</td>
+            
+        </tr>
+    </tbody>
+    </table>
+      </div>
+    </div>
+</div>
+
+
+
+<div id="divPending" *ngIf="cmbIndex=='2'">
+    <h2>My Pending Stocks</h2>
+    <div class="item" *ngFor="let stock of PendingStocks">
+      Created By :{{stock.Vendor.user.Email}}<br>
+      Created At :{{stock.CreatedAt}}<br>
+    
+      <div>
+        <table class="table table-borderd">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                
+            </tr>
+            </thead>
+        <tbody>
+        <tr *ngFor="let item of stock.StockItems;index as i">
+            <td>
+                  {{item.Product.Name}} 
+            </td>
+            <td><img style="height: 100px;width:100px" [src]='getimg(item.Product.Image)' ></td>
+            <td>{{item.Product.Description}}</td>
+            <td>{{item.Product.Unit}}</td>
+            <td>{{item.Product.Price}}</td>
+            <td>{{item.Quantity}}</td>
+            
+        </tr>
+    </tbody>
+    </table>
+      </div>
+    </div>
 </div>

@@ -39,4 +39,19 @@ export class VendorService {
     headers = headers.set('Authorization', token);
     return this.http.post(environment.AppName + '/api/queries/StartStopProduct.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?obj:JSON.stringify(obj), { headers:headers})
   }
+  doSaveStock(stockItems,token){
+    let headers = new HttpHeaders();      
+    headers = headers.set('Authorization', token);
+    return this.http.post(environment.AppName + '/api/queries/SaveStock.php'.replace('.php',environment.isDotNetCore?'':'.php') , environment.isDotNetCore?stockItems:JSON.stringify(stockItems), { headers:headers})
+  }
+  getActiveStocksForVendor(token){
+    let headers = new HttpHeaders();      
+    headers = headers.set('Authorization', token);
+    return this.http.get(environment.AppName + '/api/queries/GetActiveStocksForVendor.php'.replace('.php',environment.isDotNetCore?'':'.php') ,  { headers:headers})
+  }
+  getPendingStocksForVendor(token){
+    let headers = new HttpHeaders();      
+    headers = headers.set('Authorization', token);
+    return this.http.get(environment.AppName + '/api/queries/GetPendingStocksForVendor.php'.replace('.php',environment.isDotNetCore?'':'.php') ,  { headers:headers})
+  }
 }

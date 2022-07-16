@@ -9,16 +9,24 @@ import { ManageMyStocksComponent } from './manage-my-stocks/manage-my-stocks.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
 import { NewProductComponent } from './new-product/new-product.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
-  declarations: [VendorComponent, DashboardComponent, ManageMyProductsComponent, ManageMyStocksComponent, NewProductComponent],
+  declarations: 
+      [VendorComponent,
+       DashboardComponent,
+       ManageMyProductsComponent, 
+       ManageMyStocksComponent,
+       NewProductComponent
+       ],
   imports: [
     CommonModule,
     VENDORRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule    
+    MaterialModule,
+    SharedModule    
   ]
 })
 export class VENDORModule { }

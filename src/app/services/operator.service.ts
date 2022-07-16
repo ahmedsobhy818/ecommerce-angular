@@ -28,4 +28,18 @@ export class OperatorService {
 
     return this.http.post(environment.AppName + '/api/queries/SuspendProduct.php'.replace('.php',environment.isDotNetCore?'':'.php') ,{ID:product.ID}, {headers:headers})
   }
+
+  getPendingStocksForAll(token){
+    let headers = new HttpHeaders();      
+    headers = headers.set('Authorization', token);
+    return this.http.get(environment.AppName + '/api/queries/GetPendingStocksForAll.php'.replace('.php',environment.isDotNetCore?'':'.php') ,  { headers:headers})
+  }
+
+  ApproveStock(stockId,token,SpinnerVarName){
+    let headers = new HttpHeaders();      
+    headers = headers.set('Authorization', token);
+    headers = headers.set('CustomSpinner',SpinnerVarName);
+
+    return this.http.post(environment.AppName + '/api/queries/ApproveStock.php'.replace('.php',environment.isDotNetCore?'':'.php') ,{ID:stockId}, {headers:headers})
+  }
 }
