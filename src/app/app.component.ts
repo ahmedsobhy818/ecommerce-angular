@@ -26,7 +26,7 @@ import { LoginComponent } from './components/login/login.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit {//
 /**
  *
  */
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
  snackBarRef :MatSnackBarRef<any> =null
 
-constructor(private store:Store<StoreInterface> , 
+constructor(private store:Store<StoreInterface> ,
   private routeService:PreviousRouteService,
   private loadingService:LoadingService,
   private signalRService:SignalrGeneralHubService,
@@ -45,11 +45,11 @@ constructor(private store:Store<StoreInterface> ,
     public dialog: MatDialog
   )
  {
-   
+
   this.store.dispatch(new LoadSettingsAction())
   ////
   routeService.LoadingBehaviour.subscribe(data=>{
-    this.isLoaded=data    
+    this.isLoaded=data
   })
   ////
   loadingService.LoadingBehaviour.subscribe(data=>{
@@ -62,16 +62,16 @@ constructor(private store:Store<StoreInterface> ,
 
   this.route.queryParamMap.subscribe(params=>{
     let action=params.get('action')
-    //alert(action) 
+    //alert(action)
     console.log(`action parameter: ${action}`)
     if(action=="login" || action=="signup"){
-      let dialogRef 
+      let dialogRef
       if(action=="login"){
       dialogRef= this.dialog.open(LoginComponent, {
         width: '80%',
         height:'80%'
       });
-      }  
+      }
       else{
         dialogRef= this.dialog.open(SignupComponent, {
           width: '80%',
@@ -81,14 +81,14 @@ constructor(private store:Store<StoreInterface> ,
       }
       dialogRef.afterClosed().subscribe(result => {
         let urlTree = this.router.parseUrl(this.router.url);
-        console.log(result)  
-        if(result!=undefined)//the case when the user create new account succesfully on signup page 
+        console.log(result)
+        if(result!=undefined)//the case when the user create new account succesfully on signup page
          {
            urlTree.queryParams = {action: 'login'}; //then he is redirected to login page
-           
+
         }
         else
-            urlTree.queryParams = {};  
+            urlTree.queryParams = {};
 
 
         let back_url= urlTree.toString();
@@ -96,7 +96,7 @@ constructor(private store:Store<StoreInterface> ,
       });
     }
     if(action=="logout"){
-        this.store.dispatch(new LogoutAction()) 
+        this.store.dispatch(new LogoutAction())
         this.router.navigate([''])
     }
   })
@@ -108,17 +108,17 @@ constructor(private store:Store<StoreInterface> ,
        {
         if(this.snackBarRef==null)
          this.snackBarRef=  this._snackBar.open("Connection OFF")
-        
-         
+
+
     }
       else
        {
-         
+
          if(this.snackBarRef!=null)
           {
             this.snackBarRef.dismiss();
             this.snackBarRef=null;
-            
+
             setTimeout(() => {
                //to reload
                this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -126,8 +126,8 @@ constructor(private store:Store<StoreInterface> ,
               };
               this.router.navigateByUrl(this.router.url)
             }, 2000);
-          }  
-          
+          }
+
   }
     })
   }

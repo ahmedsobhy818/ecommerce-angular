@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\app",
-    "\\src\\app\\components",
-    "\\src\\app\\material",
-    "\\src\\app\\services"
+    ""
   ],
-  "SelectedNode": "\\src\\app\\services\\account.service.ts",
+  "SelectedNode": "\\C:\\Users\\Ahmed.Sobhy\\Source\\Repos\\ecommerce-angular",
   "PreviewInSolutionExplorer": false
 }
